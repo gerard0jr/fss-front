@@ -1,0 +1,19 @@
+.navbar-distribution{
+    justify-content: space-between;
+}
+
+.left-items, .profile-circled{
+    display: flex;
+    align-items: center;
+}
+
+.profile-circled{
+    margin-right: 2rem;
+}
+
+.profile-circled img{
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
