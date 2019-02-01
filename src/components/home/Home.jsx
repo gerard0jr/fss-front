@@ -28,11 +28,14 @@ class Home extends Component {
 
     handleLocation = e => this.setState({location : e})
 
+    updateUser = user => this.setState({user})
+
     close = () => this.setState({open: false})
 
   render() {
     const { open, direction, location, user, message } = this.state
-    const { handleDrawerClose, handleDrawerOpen, handleLocation, handleChange, close } = this
+    const { handleDrawerClose, handleDrawerOpen, handleLocation, 
+        handleChange, close, updateUser } = this
     const { classes } = this.props
     return (
       <div>
@@ -54,7 +57,7 @@ class Home extends Component {
           <div className={classes.toolbar}/>
           {
               location === 'root' ? <Typography paragraph>Contenido de dashboard</Typography> :
-              location === 'profile' ? <Profile /> :
+              location === 'profile' ? <Profile updateUser={updateUser} /> :
               'Not root'
           }
         </main>

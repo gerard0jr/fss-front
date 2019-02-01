@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Paper, Snackbar, TextField } from '@material-ui/core';
+import { Paper, Snackbar, TextField, CircularProgress } from '@material-ui/core';
 import './styles.css'
 import { CameraAlt } from '@material-ui/icons';
 import firebase from '../../services/firebase'
@@ -38,7 +38,7 @@ class Profile extends Component{
     uploadPhoto = (e) => {
         const { user } = this.state
         const file = e.target.files[0]
-        const task = firebase.storage().ref('profilePics').child(user._id + file.name).put(file)
+        const task = firebase.storage().ref(`profilePics/${user.name}-${user._id}`).child(file.name).put(file)
 
         task.on("state_changed", snap => {
             let progress = (snap.bytesTransferred / snap.totalBytes) * 100
@@ -51,7 +51,8 @@ class Profile extends Component{
         .then(link=>{
             user['photoURL'] = link
             localStorage.setItem('user', JSON.stringify(user))
-            this.setState({user})
+            this.props.updateUser(user)
+            this.setState({user, progress: 0})
         })
 
     }
@@ -70,15 +71,18 @@ class Profile extends Component{
             <div>
             <Paper className="paper-profile">
                 <h2>Perfil de {user.name}</h2>
-                <div style={{backgroundImage:`url(${user.photoURL})`}} className="profile-picture">
+                {progress > 0 ? <CircularProgress variant="determinate" value={progress} /> :
+                 <div onClick={clickInput} style={{backgroundImage:`url(${user.photoURL})`}} 
+                 className="profile-picture">
                     <span>
                         <CameraAlt/>
                         <p>Editar</p>
                     </span>
-                </div>
+                </div>}
                 <form>
                     <div>
                         <TextField
+                        InputLabelProps={{ shrink: true }}
                         disabled
                         id="email"
                         label="Email"
@@ -89,6 +93,7 @@ class Profile extends Component{
                     </div>
                     <div>
                         <TextField
+                        InputLabelProps={{ shrink: true }}
                         id="name"
                         label="Nombre"
                         value={user.name}
@@ -96,6 +101,7 @@ class Profile extends Component{
                         margin="normal"
                         />
                     </div>
+                    <input onChange={uploadPhoto} type="file" name="photoURL" id="photoUpload" style={{display:"none"}}/>
                 </form>
             </Paper>
             <Snackbar/>

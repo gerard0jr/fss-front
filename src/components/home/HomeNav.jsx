@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, Avatar } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu'
 import classNames from 'classnames';
 import PropTypes from 'prop-types'
@@ -32,7 +32,7 @@ const HomeNav = ({classes,open, handleDrawerOpen, photoURL, role}) => {
                 </Typography>
             </div>
             <div className="profile-circled">
-                <img src={photoURL} alt="profile-mini-pic"/> <span>{role}</span>
+                <Avatar alt="profile-mini-pic" src={photoURL}/><span>{role}</span>
             </div>
         </Toolbar>
     </AppBar>
