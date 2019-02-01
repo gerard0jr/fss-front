@@ -66,12 +66,11 @@ class Profile extends Component{
     render() {
         const { open, user, message, progress } = this.state
         const { handleChange, close, uploadPhoto, clickInput } = this
-        const { classes } = this.props
         return (
             <div>
             <Paper className="paper-profile">
                 <h2>Perfil de {user.name}</h2>
-                {progress > 0 ? <CircularProgress variant="determinate" value={progress} /> :
+                {!user.photoURL ? <CircularProgress/> : progress > 0 ? <CircularProgress variant="determinate" value={progress} /> :
                  <div onClick={clickInput} style={{backgroundImage:`url(${user.photoURL})`}} 
                  className="profile-picture">
                     <span>

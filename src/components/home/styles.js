@@ -21,7 +21,7 @@ export const styles = theme => ({
   },
   menuButton: {
     marginLeft: 12,
-    marginRight: 36,
+    marginRight: 10,
   },
   hide: {
     display: 'none',

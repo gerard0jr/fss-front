@@ -28,6 +28,8 @@ class Home extends Component {
 
     handleLocation = e => this.setState({location : e})
 
+    toHome = () => this.setState({location: 'root'})
+
     updateUser = user => this.setState({user})
 
     close = () => this.setState({open: false})
@@ -35,7 +37,7 @@ class Home extends Component {
   render() {
     const { open, direction, location, user, message } = this.state
     const { handleDrawerClose, handleDrawerOpen, handleLocation, 
-        handleChange, close, updateUser } = this
+        handleChange, close, updateUser, toHome } = this
     const { classes } = this.props
     return (
       <div>
@@ -43,6 +45,7 @@ class Home extends Component {
         <CssBaseline />
         <HomeNav 
             handleDrawerOpen={handleDrawerOpen} 
+            toHome={toHome}
             open={open} 
             classes={classes}
             {...user}/>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppBar, Toolbar, IconButton, Typography, Avatar } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Avatar } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu'
 import classNames from 'classnames';
 import PropTypes from 'prop-types'
@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles'
 import { styles } from './styles'
 import './styles.css'
 
-const HomeNav = ({classes,open, handleDrawerOpen, photoURL, role}) => {
+const HomeNav = ({classes,open, handleDrawerOpen, photoURL, role, toHome}) => {
   return (
     <AppBar
         position="fixed"
@@ -27,9 +27,7 @@ const HomeNav = ({classes,open, handleDrawerOpen, photoURL, role}) => {
                 >
                     <MenuIcon />
                 </IconButton>
-                <Typography variant="h6" color="inherit" noWrap>
-                    FSS Dashboard
-                </Typography>
+                <img onClick={toHome} style={{width:"100px"}} src="/logo.png" alt="fss-logo"/>
             </div>
             <div className="profile-circled">
                 <Avatar alt="profile-mini-pic" src={photoURL}/><span>{role}</span>
