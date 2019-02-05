@@ -58,12 +58,25 @@ export const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 3,
     marginLeft: '73px'
   },
   bigAvatar: {
     margin: 10,
     width: 60,
     height: 60,
+  },
+  flexGrow:{
+    flexGrow: 1
+  },
+  salesMenuRoot:{
+    marginTop: '-20px',
+    flexGrow: 1,
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+    textAlign: 'left'
+  },
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
   }
-});
+})

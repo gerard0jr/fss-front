@@ -16,3 +16,17 @@ code {
 a{
   text-decoration: none;
 }
+
+/* Clases para todos los componentes */
+
+.section-title{
+  padding: 0.6em 0 0 0;
+  margin-top: 1em;
+  margin-left: 1em;
+}
+
+.tab-content{
+  text-align: center;
+  padding: 1em;
+  box-sizing: border-box;
+}

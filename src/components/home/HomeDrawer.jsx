@@ -1,7 +1,7 @@
 import React from 'react'
 import { Drawer, IconButton, List, Divider, 
     ListItem, ListItemIcon, ListItemText, Tooltip } from '@material-ui/core';
-import { Help, Assignment, ChevronLeft, ChevronRight, Face } from '@material-ui/icons';
+import { Help, Assignment, ChevronLeft, ChevronRight, Face, TrendingUp } from '@material-ui/icons';
 import classNames from 'classnames';
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
@@ -32,18 +32,18 @@ const HomeDrawer = ({open, direction, handleDrawerClose, classes, location, hand
         <Divider />
         <List>
             <ListItem onClick={() => handleLocation('root')} button>
+                {open ? <ListItemIcon><TrendingUp /></ListItemIcon> : 
+                <Tooltip title="Resumen" placement="right-start">
+                    <ListItemIcon><TrendingUp /></ListItemIcon>
+                </Tooltip>}
+                <ListItemText primary="Resumen" />
+            </ListItem>
+            <ListItem onClick={() => handleLocation('ventas')} button>
                 {open ? <ListItemIcon><Assignment /></ListItemIcon> : 
                 <Tooltip title="Ventas" placement="right-start">
                     <ListItemIcon><Assignment /></ListItemIcon>
                 </Tooltip>}
                 <ListItemText primary="Ventas" />
-            </ListItem>
-            <ListItem onClick={() => handleLocation('otro')} button>
-                {open ? <ListItemIcon><Help /></ListItemIcon> : 
-                <Tooltip title="Otro" placement="right-start">
-                    <ListItemIcon><Help /></ListItemIcon>
-                </Tooltip>}
-                <ListItemText primary="Otro" />
             </ListItem>
         </List>
         <Divider />

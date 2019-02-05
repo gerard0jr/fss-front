@@ -27,7 +27,7 @@ const HomeNav = ({classes,open, handleDrawerOpen, photoURL, role, toHome}) => {
                 >
                     <MenuIcon />
                 </IconButton>
-                <img onClick={toHome} style={{width:"100px"}} src="/logo.png" alt="fss-logo"/>
+                <img onClick={toHome} style={{width:"100px", cursor:"pointer"}} src="/logo.png" alt="fss-logo"/>
             </div>
             <div className="profile-circled">
                 <Avatar alt="profile-mini-pic" src={photoURL}/><span>{role}</span>

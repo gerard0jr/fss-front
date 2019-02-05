@@ -1,0 +1,13 @@
+.sales-oportunity-fields{
+    display: flex;
+    flex-flow: column;
+}
+
+.text-field{
+    margin: 1em !important;
+    min-width: 300px !important;
+}
+
+.column{
+    flex-basis: 33.33%;
+}

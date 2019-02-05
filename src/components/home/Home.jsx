@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles'
 import HomeNav from './HomeNav';
 import HomeDrawer from './HomeDrawer';
 import Profile from '../profile/Profile';
+import Sales from '../sales/Sales';
 
 class Home extends Component {
     state = {
@@ -59,7 +60,8 @@ class Home extends Component {
         <main className={classes.content}>
           <div className={classes.toolbar}/>
           {
-              location === 'root' ? <Typography paragraph>Contenido de dashboard</Typography> :
+              location === 'root' ? <Typography paragraph>Dashboard Principal</Typography> :
+              location === 'ventas' ? <Sales /> :
               location === 'profile' ? <Profile updateUser={updateUser} /> :
               'Not root'
           }
