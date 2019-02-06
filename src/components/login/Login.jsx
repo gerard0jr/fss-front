@@ -16,7 +16,7 @@ export default class Login extends Component {
   componentDidMount = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user) return this.setState({ user: {}, isAuth: false });
-    this.props.history.push('/app')
+    this.props.history.push('/home')
   }
 
   handleChange = e => {
@@ -30,6 +30,7 @@ export default class Login extends Component {
     login(user)
     .then(res => {
       if(res.status === 500) return this.setState({open: true, message: res.data.message})
+      if(res.status === 404) return this.setState({open: true, message: 'Nombre de usuario o contraseña incorrectos'})
       localStorage.setItem('user', JSON.stringify(res))
       this.setState({open: true, message: "Inicio de sesión correcto, ¡Bienvenido(a)!"})
       this.props.history.push('/home')
