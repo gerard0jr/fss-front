@@ -4,7 +4,8 @@ import { withStyles } from '@material-ui/core/styles'
 import { styles } from '../home/styles'
 import { AppBar, Tabs, Tab } from '@material-ui/core';
 import TabContent from './TabContent';
-import { getAll, newLead } from '../../services/leadsDB'
+import { getAll, newLead, removeLead, removeUserLead, actLead } from '../../services/leadsDB'
+import Snack from '../snackbar/Snack';
 
 class Sales extends Component {
     state = {
@@ -15,7 +16,9 @@ class Sales extends Component {
         page: 0,
         rowsPerPage: 5,
         message: String,
-        open: false
+        open: false,
+        dialog: false,
+        dialogNew: false
     }
 
     componentDidMount = () => {
@@ -25,10 +28,21 @@ class Sales extends Component {
         
     }
     
-    handleChange = e => {
+    handleChange = e => value => {
         const { lead } = this.state
+        if(e.target.name === 'Origen') {
+            lead['origin'] = e.target.value
+            return this.setState({lead})
+        }
+
         lead[e.target.id] = e.target.value
         this.setState({lead})
+    }
+
+    handleDateChange = id => date => {
+        const { lead } = this.state
+        lead['meetingDate'] = date
+        this.setState({lead}, this.updateLead(id))
     }
 
     getLeads = () => {
@@ -42,9 +56,20 @@ class Sales extends Component {
         const { user, lead } = this.state
         newLead(user._id, lead)
             .then(userUpdated => {
-                 this.getLeads(user._id)}
-            )
+                 this.getLeads(user._id)
+                 this.setState({dialogNew: false, open: true, message:'Lead creado'}, this.clearLead)
+            })
             .catch(err => console.log(err))
+    }
+
+    updateLead = id => {
+        const { lead } = this.state
+        actLead(id, lead)
+        .then(lead => {
+            this.getLeads()
+            this.setState({dialog: false, open: true, message:'Lead actualizado'})
+        })
+        .catch(err => console.log(err))
     }
     
     clearLead = () => {
@@ -53,9 +78,30 @@ class Sales extends Component {
         this.setState({lead})
     }
 
+    deleteLead = (leadID) => {
+        const { user } = this.state
+        const id = {'id': leadID}
+        removeLead(id)
+            .then(newLead => newLead)
+            .catch(err => console.log(err))
+        removeUserLead(user._id, id)
+            .then(newUser => {
+                this.getLeads()
+                this.setState({dialog: false, open: true, message:'Lead eliminado'})
+            })
+            .catch(err => console.log(err))
+    }
+
     handleTabs = (event,value) => this.setState({value})
     
-    handleClose = () => this.setState({ open: false })
+    close = () => this.setState({ open: false })
+
+    openDialog = (lead, action) => {
+        if(action === 'update') return this.setState({dialog: true, lead})
+        this.setState({dialogNew: true})
+    }
+
+    closeDialog = () => this.setState({ dialog: false, dialogNew: false })
 
     handleChangePage = (event, page) => this.setState({ page })
 
@@ -63,9 +109,11 @@ class Sales extends Component {
 
   render() {
       const { classes } = this.props
-      const { value, message, page, rowsPerPage, lead, user, open, leads } = this.state
-      const { handleTabs, handleChange, handleChangePage, handleChangeRowsPerPage, handleClose,
-            submitLead, getLeads, clearLead } = this
+      const { value, message, page, rowsPerPage, lead, user, open, leads, dialog,
+            dialogNew } = this.state
+      const { handleTabs, handleChange, handleChangePage, handleChangeRowsPerPage, close,
+            submitLead, getLeads, clearLead, deleteLead, closeDialog, openDialog,
+            updateLead, handleDateChange } = this
     return (
       <div className={classes.salesMenuRoot}>
         <h2 className="section-title">Ventas</h2>
@@ -86,18 +134,23 @@ class Sales extends Component {
             handleChange={ handleChange } 
             handleChangePage={handleChangePage} 
             handleChangeRowsPerPage={handleChangeRowsPerPage} 
-            handleClose={handleClose}
             page={page} 
             rowsPerPage={rowsPerPage}
-            message={message}
             lead={lead}
             leads={leads}
-            open={open}
             user={user}
             submitLead={submitLead}
             getLeads={getLeads}
             clearLead={clearLead}
+            deleteLead={deleteLead}
+            dialog={dialog}
+            openDialog={openDialog}
+            closeDialog={closeDialog}
+            dialogNew={dialogNew}
+            updateLead={updateLead}
+            handleDateChange={handleDateChange}
         />
+        <Snack close={close} message={message} open={open}/>
       </div>
     )
   }

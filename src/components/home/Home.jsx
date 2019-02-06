@@ -7,6 +7,7 @@ import HomeNav from './HomeNav';
 import HomeDrawer from './HomeDrawer';
 import Profile from '../profile/Profile';
 import Sales from '../sales/Sales';
+import { actUser } from '../../services/auth'
 
 class Home extends Component {
     state = {
@@ -31,7 +32,10 @@ class Home extends Component {
 
     toHome = () => this.setState({location: 'root'})
 
-    updateUser = user => this.setState({user})
+    updateUser = user => { 
+        actUser(user._id, user)
+        this.setState({user})
+    }
 
     close = () => this.setState({open: false})
 

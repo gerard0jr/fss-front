@@ -8,8 +8,26 @@ export const getAll = (userId) => {
 }
 
 export const newLead = (userId, lead) => {
-    console.log(lead)
     return axios.post(`${host}/newLead/${userId}`, lead, {})
     .then( leads => leads)
     .catch( err => err.response)
+}
+
+export const removeLead = leadID => {
+    const { id } = leadID
+    return axios.post(`${host}/removeLead/${id}`)
+    .then(inactiveLead => inactiveLead)
+    .catch(err => err.response)
+}
+
+export const removeUserLead = (userID, leadID) => {
+    return axios.post(`${host}/removeUserLead/${userID}`, leadID)
+    .then(newUser => newUser)
+    .catch(err => err.response)
+}
+
+export const actLead = (id, lead) => {
+    return axios.post(`${host}/updateLead/${id}`, lead)
+    .then(updatedUser => updatedUser)
+    .catch(err => err.response)
 }

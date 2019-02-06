@@ -1,26 +1,34 @@
 import React from 'react'
-import { Table, TableBody, TableHead, TableCell, TableRow, Paper, TablePagination, CircularProgress } from '@material-ui/core'
-import { DeleteOutline } from '@material-ui/icons';
+import { Table, TableBody, TableHead, TableCell, TableRow, Paper, 
+    TablePagination, CircularProgress, Grid } from '@material-ui/core'
+import { Edit } from '@material-ui/icons';
+import FormDialog from './FormDialog';
+import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
+import DateFnsUtils from '@date-io/date-fns'
 
 const LeadsTable = ({leads, rowsPerPage, page, handleChangePage, 
-    handleChangeRowsPerPage, deleteIncomeItem}) => {
-  return (
+    handleChangeRowsPerPage, deleteLead, dialog, closeDialog, handleChange, lead,
+    clearLead, submitLead, openDialog, updateLead, handleDateChange}) => {
+  return (<div>
     <Paper id="tablas" style={{width:"100%", margin: "1em auto", padding:"1em"}}>
     <div style={{overflowX: 'auto'}}>
         <Table>
             <TableHead>
             <TableRow>
                 <TableCell>Empresa</TableCell>
-                <TableCell align="right">Giro</TableCell>
-                <TableCell align="right">Empleados</TableCell>
-                <TableCell align="right">Dirección</TableCell>
-                <TableCell align="right">Contacto</TableCell>
-                <TableCell align="right">Posición</TableCell>
-                <TableCell align="right">Teléfono</TableCell>
-                <TableCell align="right">Email</TableCell>
-                <TableCell align="right">Industria</TableCell>
-                <TableCell align="right">Origen</TableCell>
-                <TableCell align="right">Borrar</TableCell>
+                <TableCell>Giro</TableCell>
+                <TableCell>Empleados</TableCell>
+                <TableCell>Dirección</TableCell>
+                <TableCell>Contacto</TableCell>
+                <TableCell>Posición</TableCell>
+                <TableCell>Teléfono</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Industria</TableCell>
+                <TableCell>Origen</TableCell>
+                <TableCell>Interesado</TableCell>
+                <TableCell>Reunión</TableCell>
+                <TableCell>Editar</TableCell>
+                <TableCell>Cotización</TableCell>
             </TableRow>
             </TableHead>
             <TableBody>
@@ -31,18 +39,38 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                     <TableCell component="th" scope="row">
                         {lead.bussinessName}
                     </TableCell>
-                    <TableCell align="right">{lead.bussinessRole}</TableCell>
-                    <TableCell align="right">{lead.bussinessEmployees}</TableCell>
-                    <TableCell align="right">{lead.bussinessAddress}</TableCell>
-                    <TableCell align="right">{lead.contactName}</TableCell>
-                    <TableCell align="right">{lead.contactPosition}</TableCell>
-                    <TableCell align="right">{lead.contactPhone}</TableCell>
-                    <TableCell align="right">{lead.contactEmail}</TableCell>
-                    <TableCell align="right">{lead.industry}</TableCell>
-                    <TableCell align="right">{lead.origin}</TableCell>
-                    <TableCell align="right">
-                        <DeleteOutline style={{fontSize: "17px", cursor:"pointer"}}/>
+                    <TableCell>{lead.bussinessRole}</TableCell>
+                    <TableCell>{lead.bussinessEmployees}</TableCell>
+                    <TableCell>{lead.bussinessAddress}</TableCell>
+                    <TableCell>{lead.contactName}</TableCell>
+                    <TableCell>{lead.contactPosition}</TableCell>
+                    <TableCell>{lead.contactPhone}</TableCell>
+                    <TableCell>{lead.contactEmail}</TableCell>
+                    <TableCell>{lead.industry}</TableCell>
+                    <TableCell>{lead.origin}</TableCell>
+                    <TableCell>{lead.interested}</TableCell>
+                    <TableCell> 
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <Grid container justify="space-around">
+                            <DatePicker
+                                margin="normal"
+                                label="Date picker"
+                                value={lead.meetingDate}
+                                onChange={handleDateChange(lead._id)}
+                            />
+                            <TimePicker
+                                margin="normal"
+                                label="Time picker"
+                                value={lead.meetingDate}
+                                onChange={handleDateChange(lead._id)}
+                            />
+                            </Grid>
+                        </MuiPickersUtilsProvider>
                     </TableCell>
+                    <TableCell>
+                        <Edit onClick={() => openDialog(lead, 'update')} style={{fontSize: "17px", cursor:"pointer"}}/>
+                    </TableCell>
+                    <TableCell>Cotizar</TableCell>
                 </TableRow> : ""
                 );
             }) : <TableRow>
@@ -72,7 +100,16 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
     </Paper>
-  )
+    <FormDialog 
+        dialog={dialog} 
+        closeDialog={closeDialog} 
+        handleChange={handleChange} 
+        lead={lead}
+        deleteLead={deleteLead}
+        clearLead={clearLead}
+        submitLead={submitLead}
+        updateLead={updateLead}/>
+  </div>)
 }
 
 export default LeadsTable

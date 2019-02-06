@@ -10,3 +10,8 @@ export const login = user =>
     axios.post(`${url}/login`, user, {withCredentials: true})
     .then(res => res.data)
     .catch(err => err.response)
+
+export const actUser = (id,user) =>
+    axios.post(`${url}/updateUser/${id}`, user, {})
+    .then(res => res.data)
+    .catch(err => err.response)
