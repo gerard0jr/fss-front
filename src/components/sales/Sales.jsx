@@ -57,6 +57,7 @@ class Sales extends Component {
 
     submitLead = () => {
         const { user, lead } = this.state
+        lead['commentPostedBy'] = user.name
         newLead(user._id, lead)
             .then(userUpdated => {
                  this.getLeads(user._id)

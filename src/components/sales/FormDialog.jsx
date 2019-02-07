@@ -119,6 +119,15 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                             value={lead.contactEmail}
                             onChange={handleChange}
                         />
+
+                        <TextField
+                            className="text-field"
+                            type="text"
+                            id="commentText"
+                            label="Comentarios"
+                            value={lead.commentText}
+                            onChange={handleChange}
+                        />
                     </div>
                 </form>
             </DialogContent>

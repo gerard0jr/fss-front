@@ -29,6 +29,7 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                 <TableCell>Interesado</TableCell>
                 <TableCell>Reunión</TableCell>
                 <TableCell></TableCell>
+                <TableCell>Comentarios</TableCell>
                 <TableCell>Editar</TableCell>
                 <TableCell>Cotización</TableCell>
             </TableRow>
@@ -50,6 +51,7 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                     <TableCell>{lead.contactEmail}</TableCell>
                     <TableCell>{lead.industry}</TableCell>
                     <TableCell>{lead.origin}</TableCell>
+                    {/* Checkbox de interesado */}
                     <TableCell>
                         <FormControlLabel
                         control={
@@ -62,6 +64,7 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                         }
                         />
                     </TableCell>
+                    {/* Inputs de fecha y hora de reunión */}
                     <TableCell style={{width:"200px", padding: "8px"}}> 
                         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale} views={['year']}>
                             <Grid container justify="space-around">
@@ -89,6 +92,9 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                             </Grid>
                         </MuiPickersUtilsProvider>
                     </TableCell>
+                    {/* Comentarios */}
+                    <TableCell>{lead.commentText}</TableCell>
+                    {/* Botón de editar */}
                     <TableCell>
                         <Edit onClick={() => openDialog(lead, 'update')} style={{fontSize: "17px", cursor:"pointer"}}/>
                     </TableCell>
