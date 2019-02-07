@@ -1,10 +1,11 @@
 import React from 'react'
 import { Table, TableBody, TableHead, TableCell, TableRow, Paper, 
-    TablePagination, CircularProgress, Grid } from '@material-ui/core'
+    TablePagination, CircularProgress, Grid, FormControlLabel, Checkbox } from '@material-ui/core'
 import { Edit } from '@material-ui/icons';
 import FormDialog from './FormDialog';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
 import DateFnsUtils from '@date-io/date-fns'
+import esLocale from 'date-fns/locale/es'
 
 const LeadsTable = ({leads, rowsPerPage, page, handleChangePage, 
     handleChangeRowsPerPage, deleteLead, dialog, closeDialog, handleChange, lead,
@@ -27,6 +28,7 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                 <TableCell>Origen</TableCell>
                 <TableCell>Interesado</TableCell>
                 <TableCell>Reunión</TableCell>
+                <TableCell></TableCell>
                 <TableCell>Editar</TableCell>
                 <TableCell>Cotización</TableCell>
             </TableRow>
@@ -48,19 +50,39 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                     <TableCell>{lead.contactEmail}</TableCell>
                     <TableCell>{lead.industry}</TableCell>
                     <TableCell>{lead.origin}</TableCell>
-                    <TableCell>{lead.interested}</TableCell>
-                    <TableCell> 
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <TableCell>
+                        <FormControlLabel
+                        control={
+                            <Checkbox
+                            checked={lead.interested}
+                            onChange={handleDateChange(lead._id, lead.interested)}
+                            value={lead.interested}
+                            id='interested'
+                            />
+                        }
+                        />
+                    </TableCell>
+                    <TableCell style={{width:"200px", padding: "8px"}}> 
+                        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale} views={['year']}>
                             <Grid container justify="space-around">
                             <DatePicker
-                                margin="normal"
-                                label="Date picker"
+                                okLabel="Guardar"
+                                cancelLabel="Cancelar"
+                                label="Fecha"
                                 value={lead.meetingDate}
                                 onChange={handleDateChange(lead._id)}
+                                format={'dd/MM/yyyy'}
                             />
+                            </Grid>
+                        </MuiPickersUtilsProvider>
+                    </TableCell>
+                    <TableCell style={{width:"200px", padding: "5px"}}> 
+                        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale}>
+                            <Grid container justify="space-around">
                             <TimePicker
-                                margin="normal"
-                                label="Time picker"
+                                okLabel="Guardar"
+                                cancelLabel="Cancelar"
+                                label="Hora"
                                 value={lead.meetingDate}
                                 onChange={handleDateChange(lead._id)}
                             />
@@ -100,6 +122,7 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
     </Paper>
+
     <FormDialog 
         dialog={dialog} 
         closeDialog={closeDialog} 

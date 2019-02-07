@@ -52,7 +52,7 @@ class Profile extends Component{
             user['photoURL'] = link
             localStorage.setItem('user', JSON.stringify(user))
             this.props.updateUser(user)
-            this.setState({user, progress: 0})
+            this.setState({user, progress: 0, open: true, message: 'Foto de perfil actualizada'})
         })
 
     }
@@ -103,7 +103,7 @@ class Profile extends Component{
                     <input onChange={uploadPhoto} type="file" name="photoURL" id="photoUpload" style={{display:"none"}}/>
                 </form>
             </Paper>
-            <Snackbar/>
+            <Snackbar open={open} message={message} close={close}/>
           </div>
         )
       }

@@ -28,19 +28,22 @@ class Sales extends Component {
         
     }
     
-    handleChange = e => value => {
+    handleChange = e => {
         const { lead } = this.state
         if(e.target.name === 'Origen') {
             lead['origin'] = e.target.value
             return this.setState({lead})
         }
-
         lead[e.target.id] = e.target.value
         this.setState({lead})
     }
 
-    handleDateChange = id => date => {
+    handleDateChange = (id, interested= null) => date => {
         const { lead } = this.state
+        if(interested !== null){
+            lead['interested'] = !interested
+            return this.setState({lead}, this.updateLead(id))    
+        }
         lead['meetingDate'] = date
         this.setState({lead}, this.updateLead(id))
     }
@@ -67,7 +70,7 @@ class Sales extends Component {
         actLead(id, lead)
         .then(lead => {
             this.getLeads()
-            this.setState({dialog: false, open: true, message:'Lead actualizado'})
+            this.setState({dialog: false, open: true, message:'Actualizado correctamente'})
         })
         .catch(err => console.log(err))
     }
@@ -97,11 +100,15 @@ class Sales extends Component {
     close = () => this.setState({ open: false })
 
     openDialog = (lead, action) => {
-        if(action === 'update') return this.setState({dialog: true, lead})
-        this.setState({dialogNew: true})
+        if(action === 'update'){
+            this.setState({dialog: true, lead})
+            }
+        else this.setState({dialogNew: true, lead:{}})
     }
 
-    closeDialog = () => this.setState({ dialog: false, dialogNew: false })
+    closeDialog = () => {
+        this.setState({ dialog: false, dialogNew: false }, this.getLeads)
+    }
 
     handleChangePage = (event, page) => this.setState({ page })
 

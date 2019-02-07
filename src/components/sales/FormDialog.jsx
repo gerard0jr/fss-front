@@ -123,21 +123,21 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                 </form>
             </DialogContent>
            
-                {dialogNew ? 
-                 <DialogActions>
-                    <Button onClick={closeDialog} >Cancelar</Button>
-                    <Button onClick={clearLead} variant="outlined" >Limpiar</Button>
-                    <Button onClick={submitLead} color="primary" variant="contained">
-                        Agregar
-                    </Button> 
-                </DialogActions>: 
+            {dialogNew ? 
                 <DialogActions>
-                    <Button onClick={closeDialog} >Cancelar</Button>
-                    <Button onClick={() => deleteLead(lead._id)} color="secondary" variant="contained" >Borrar</Button>
-                    <Button onClick={() => updateLead(lead._id)} color="primary" variant="contained">
-                        Actualizar
-                    </Button> 
-                </DialogActions>}
+                <Button onClick={closeDialog} >Cancelar</Button>
+                <Button onClick={clearLead} variant="outlined" >Limpiar</Button>
+                <Button onClick={submitLead} color="primary" variant="contained">
+                    Agregar
+                </Button> 
+            </DialogActions>: 
+            <DialogActions>
+                <Button onClick={closeDialog} >Cancelar</Button>
+                <Button onClick={() => deleteLead(lead._id)} color="secondary" variant="contained" >Borrar</Button>
+                <Button onClick={() => updateLead(lead._id)} color="primary" variant="contained">
+                    Actualizar
+                </Button> 
+            </DialogActions>}
                 
             
         </Dialog>

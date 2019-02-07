@@ -56,6 +56,7 @@ class Home extends Component {
             {...user}/>
         <HomeDrawer 
             handleDrawerClose={handleDrawerClose} 
+            location={location}
             open={open} 
             direction={direction} 
             classes={classes}

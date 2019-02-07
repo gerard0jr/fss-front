@@ -1,7 +1,7 @@
 import React from 'react'
 import { Drawer, IconButton, List, Divider, 
     ListItem, ListItemIcon, ListItemText, Tooltip } from '@material-ui/core';
-import { Help, Assignment, ChevronLeft, ChevronRight, Face, TrendingUp } from '@material-ui/icons';
+import { Assignment, ChevronLeft, ChevronRight, Face, TrendingUp } from '@material-ui/icons';
 import classNames from 'classnames';
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
@@ -30,15 +30,15 @@ const HomeDrawer = ({open, direction, handleDrawerClose, classes, location, hand
             </IconButton>
         </div>
         <Divider />
-        <List>
-            <ListItem onClick={() => handleLocation('root')} button>
+        <List component="nav">
+            <ListItem selected={location === 'root'} onClick={() => handleLocation('root')} button>
                 {open ? <ListItemIcon><TrendingUp /></ListItemIcon> : 
                 <Tooltip title="Resumen" placement="right-start">
                     <ListItemIcon><TrendingUp /></ListItemIcon>
                 </Tooltip>}
                 <ListItemText primary="Resumen" />
             </ListItem>
-            <ListItem onClick={() => handleLocation('ventas')} button>
+            <ListItem selected={location === 'ventas'} onClick={() => handleLocation('ventas')} button>
                 {open ? <ListItemIcon><Assignment /></ListItemIcon> : 
                 <Tooltip title="Ventas" placement="right-start">
                     <ListItemIcon><Assignment /></ListItemIcon>
@@ -47,8 +47,8 @@ const HomeDrawer = ({open, direction, handleDrawerClose, classes, location, hand
             </ListItem>
         </List>
         <Divider />
-        <List>
-            <ListItem onClick={() => handleLocation('profile')} button>
+        <List component="nav">
+            <ListItem selected={location === 'profile'} onClick={() => handleLocation('profile')} button>
             {open ? <ListItemIcon><Face /></ListItemIcon> : 
                 <Tooltip title="Perfil" placement="right-start">
                     <ListItemIcon><Face /></ListItemIcon>
