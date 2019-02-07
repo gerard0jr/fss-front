@@ -11,7 +11,7 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
             onClose={closeDialog}
             aria-labelledby="new-form"
         >
-            <DialogTitle>{dialogNew ? 'Nuevo Lead' : 'Actualizar Lead'}</DialogTitle>
+            <DialogTitle>{dialogNew ? 'Nuevo Lead' : `Editar ${lead.bussinessName}`}</DialogTitle>
             <DialogContent>
                 {/* FORM */}
                 <form className="sales-oportunity-fields" autoComplete="off">

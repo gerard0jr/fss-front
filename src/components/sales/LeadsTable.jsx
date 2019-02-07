@@ -37,7 +37,8 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
             <TableBody>
             {leads ? leads.map((lead, k) => {
                 return (
-                (k < ((page * 5) + 5) && k >= (page * 5)) ? 
+                //el 10 se reemplaza por el número de filas en la tabla para la paginación
+                (k < ((page * 10) + 10) && k >= (page * 10)) ? 
                 <TableRow key={k}>
                     <TableCell component="th" scope="row">
                         {lead.bussinessName}

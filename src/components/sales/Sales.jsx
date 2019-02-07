@@ -14,7 +14,7 @@ class Sales extends Component {
         leads: [],
         user: {},
         page: 0,
-        rowsPerPage: 5,
+        rowsPerPage: 10,
         message: String,
         open: false,
         dialog: false,
@@ -133,8 +133,11 @@ class Sales extends Component {
                 textColor="primary"
             >
                 <Tab onClick={getLeads} label="Oportunidad de venta" />
-                <Tab label="Item2" />
-                <Tab label="Item3" />
+                <Tab label="Prospectar clientes" />
+                <Tab label="Formalizar cuentas" />
+                <Tab label="Supervisar implementación del servicio" />
+                <Tab label="Quejas/Sugerencias" />
+                <Tab label="Satisfacción del cliente" />
             </Tabs>
         </AppBar>
         <TabContent 
