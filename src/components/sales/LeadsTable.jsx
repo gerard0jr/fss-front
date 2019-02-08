@@ -58,7 +58,7 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                         control={
                             <Checkbox
                             checked={lead.interested}
-                            onChange={handleDateChange(lead._id, lead.interested)}
+                            onChange={handleDateChange(lead._id, lead, lead.interested)}
                             value={lead.interested}
                             id='interested'
                             />
@@ -74,7 +74,7 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                                 cancelLabel="Cancelar"
                                 label="Fecha"
                                 value={lead.meetingDate}
-                                onChange={handleDateChange(lead._id)}
+                                onChange={handleDateChange(lead._id, lead, null)}
                                 format={'dd/MM/yyyy'}
                             />
                             </Grid>
@@ -88,7 +88,7 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                                 cancelLabel="Cancelar"
                                 label="Hora"
                                 value={lead.meetingDate}
-                                onChange={handleDateChange(lead._id)}
+                                onChange={handleDateChange(lead._id, lead, null)}
                             />
                             </Grid>
                         </MuiPickersUtilsProvider>

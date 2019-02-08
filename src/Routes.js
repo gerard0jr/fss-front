@@ -7,8 +7,9 @@ import Signup from './components/signup/Signup';
 const Routes = () => {
   return (
     <Switch>
-      <Route path="/home" component={Home}/>
+      <Route exact path="/" component={Login}/>
       <Route path="/login" component={Login}/>
+      <Route path="/home" component={Home}/>
       <Route path="/signup" component={Signup}/>
     </Switch>
     )

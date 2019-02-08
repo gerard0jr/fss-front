@@ -38,14 +38,14 @@ class Sales extends Component {
         this.setState({lead})
     }
 
-    handleDateChange = (id, interested= null) => date => {
-        const { lead } = this.state
+    handleDateChange = (id, newLead, interested = null) => date => {
+        const lead = newLead
         if(interested !== null){
             lead['interested'] = !interested
-            return this.setState({lead}, this.updateLead(id))    
+            return this.setState({lead}, () => this.updateLead(id))    
         }
         lead['meetingDate'] = date
-        this.setState({lead}, this.updateLead(id))
+        this.setState({lead}, () => this.updateLead(id))
     }
 
     getLeads = () => {
@@ -67,10 +67,10 @@ class Sales extends Component {
     }
 
     updateLead = id => {
-        const { lead } = this.state
+        const { user, lead } = this.state
         actLead(id, lead)
-        .then(lead => {
-            this.getLeads()
+        .then(newLead => {
+            this.getLeads(user._id)
             this.setState({dialog: false, open: true, message:'Actualizado correctamente'})
         })
         .catch(err => console.log(err))
