@@ -2,7 +2,7 @@ import axios from 'axios'
 const url = 'http://localhost:3000/leads'
 const heroku = 'https://crm-fss.herokuapp.com/leads'
 
-export const getAll = (userId) => {
+export const getAll = userId => {
     return axios.get(`${heroku}/getAll/${userId}`)
     .then( userLeads => userLeads)
     .catch( err => err.response)
