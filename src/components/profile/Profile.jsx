@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Paper, Snackbar, TextField, CircularProgress } from '@material-ui/core';
+import { Paper, Snackbar, TextField, CircularProgress, Button } from '@material-ui/core';
 import './styles.css'
-import { CameraAlt } from '@material-ui/icons';
+import { CameraAlt, ExitToApp } from '@material-ui/icons';
 import firebase from '../../services/firebase'
+import { logout } from '../../services/auth'
 
 class Profile extends Component{
     state = {
@@ -61,6 +62,8 @@ class Profile extends Component{
         document.getElementById('photoUpload').click()
     }
 
+    logout = () => logout().then(this.props.history.push('/login')).catch(err => err)
+
     close = () => this.setState({open: false})
 
     render() {
@@ -102,6 +105,10 @@ class Profile extends Component{
                     </div>
                     <input onChange={uploadPhoto} type="file" name="photoURL" id="photoUpload" style={{display:"none"}}/>
                 </form>
+                <Button style={{margin:"2rem 0"}} onClick={logout} variant="contained" color="secondary">
+                    Cerrar sesión
+                    <ExitToApp style={{marginLeft:"0.5rem"}}/>
+                </Button> 
             </Paper>
             <Snackbar open={open} message={message} close={close}/>
           </div>

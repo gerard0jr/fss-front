@@ -62,7 +62,6 @@ class Sales extends Component {
         lead['commentPostedBy'] = user.name
         newLead(user._id, lead)
             .then(userUpdated => {
-                console.log(userUpdated)
                 localStorage.setItem('user', JSON.stringify(userUpdated.data))
                 this.getLeads(user._id)
                 this.setState({dialogNew: false, open: true, message:'Lead creado'}, this.clearLead)
@@ -94,7 +93,6 @@ class Sales extends Component {
             .catch(err => console.log(err))
         removeUserLead(user._id, id)
             .then(userUpdated => {
-                console.log(userUpdated)
                 localStorage.setItem('user', JSON.stringify(userUpdated.data))
                 this.getLeads()
                 this.setState({dialog: false, open: true, message:'Lead eliminado'})
