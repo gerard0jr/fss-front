@@ -12,6 +12,8 @@ class Sales extends Component {
         value: 0,
         lead: {},
         leads: [],
+        client: {},
+        clients: [],
         user: {},
         page: 0,
         rowsPerPage: 10,
@@ -60,8 +62,10 @@ class Sales extends Component {
         lead['commentPostedBy'] = user.name
         newLead(user._id, lead)
             .then(userUpdated => {
-                 this.getLeads(user._id)
-                 this.setState({dialogNew: false, open: true, message:'Lead creado'}, this.clearLead)
+                console.log(userUpdated)
+                localStorage.setItem('user', JSON.stringify(userUpdated.data))
+                this.getLeads(user._id)
+                this.setState({dialogNew: false, open: true, message:'Lead creado'}, this.clearLead)
             })
             .catch(err => console.log(err))
     }
@@ -89,7 +93,9 @@ class Sales extends Component {
             .then(newLead => newLead)
             .catch(err => console.log(err))
         removeUserLead(user._id, id)
-            .then(newUser => {
+            .then(userUpdated => {
+                console.log(userUpdated)
+                localStorage.setItem('user', JSON.stringify(userUpdated.data))
                 this.getLeads()
                 this.setState({dialog: false, open: true, message:'Lead eliminado'})
             })
@@ -118,7 +124,7 @@ class Sales extends Component {
   render() {
       const { classes } = this.props
       const { value, message, page, rowsPerPage, lead, user, open, leads, dialog,
-            dialogNew } = this.state
+            dialogNew, client, clients } = this.state
       const { handleTabs, handleChange, handleChangePage, handleChangeRowsPerPage, close,
             submitLead, getLeads, clearLead, deleteLead, closeDialog, openDialog,
             updateLead, handleDateChange } = this
@@ -160,6 +166,8 @@ class Sales extends Component {
             dialogNew={dialogNew}
             updateLead={updateLead}
             handleDateChange={handleDateChange}
+            client={client}
+            clients={clients}
         />
         <Snack close={close} message={message} open={open}/>
       </div>

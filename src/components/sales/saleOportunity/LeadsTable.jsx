@@ -45,11 +45,11 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                     </TableCell>
                     <TableCell>{lead.bussinessRole}</TableCell>
                     <TableCell>{lead.bussinessEmployees}</TableCell>
-                    <TableCell>{lead.bussinessAddress}</TableCell>
+                    <TableCell style={{width:"200px", padding: "8px"}}>{lead.bussinessAddress}</TableCell>
                     <TableCell>{lead.contactName}</TableCell>
                     <TableCell>{lead.contactPosition}</TableCell>
-                    <TableCell>{lead.contactPhone}</TableCell>
-                    <TableCell>{lead.contactEmail}</TableCell>
+                    <TableCell><a style={{color:"#1976d2"}} href={`tel:+${lead.contactPhone}`}>{lead.contactPhone}</a></TableCell>
+                    <TableCell><a style={{color:"#1976d2"}} href={`mailto:${lead.contactEmail}`}>{lead.contactEmail}</a></TableCell>
                     <TableCell>{lead.industry}</TableCell>
                     <TableCell>{lead.origin}</TableCell>
                     {/* Checkbox de interesado */}

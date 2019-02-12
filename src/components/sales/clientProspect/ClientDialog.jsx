@@ -1,9 +1,9 @@
 import React from 'react'
 import { TextField, Button, FormControl, InputLabel, Select, MenuItem, 
     Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core'
-import './styles.css'
+import '../styles.css'
 
-const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead, 
+const ClientDialog = ({dialog, closeDialog, handleChange, client = {}, clearLead, 
     submitLead, updateLead, deleteLead, dialogNew}) => {
   return (
     <Dialog
@@ -11,7 +11,7 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
             onClose={closeDialog}
             aria-labelledby="new-form"
         >
-            <DialogTitle>{dialogNew ? 'Nuevo Lead' : `Editar ${lead.bussinessName}`}</DialogTitle>
+            <DialogTitle>{dialogNew ? 'Nuevo Lead' : `Editar ${client.bussinessName}`}</DialogTitle>
             <DialogContent>
                 {/* FORM */}
                 <form className="sales-oportunity-fields" autoComplete="off">
@@ -21,7 +21,7 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                             className="text-field"
                             id="bussinessName"
                             label="Nombre de la empresa"
-                            value={lead.bussinessName}
+                            value={client.bussinessName}
                             onChange={handleChange}
                         />
                     
@@ -30,7 +30,7 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                             className="text-field"
                             id="bussinessRole"
                             label="Giro de la empresa"
-                            value={lead.bussinessRole}
+                            value={client.bussinessRole}
                             onChange={handleChange}
                         />
                 
@@ -39,7 +39,7 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                             className="text-field"
                             id="bussinessAddress"
                             label="Dirección"
-                            value={lead.bussinessAddress}
+                            value={client.bussinessAddress}
                             onChange={handleChange}
                         />
                     </div>
@@ -49,7 +49,7 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                             className="text-field"
                             id="industry"
                             label="Industria"
-                            value={lead.industry}
+                            value={client.industry}
                             onChange={handleChange}
                         />
                         
@@ -57,7 +57,7 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                             <InputLabel shrink htmlFor="origin">Origen</InputLabel>
                             <Select
                                 required
-                                value={lead.origin}
+                                value={client.origin}
                                 onChange={handleChange}
                                 inputProps={{
                                 name: 'Origen',
@@ -78,7 +78,7 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                             className="text-field"
                             id="bussinessEmployees"
                             label="No. de empleados"
-                            value={lead.bussinessEmployees}
+                            value={client.bussinessEmployees}
                             onChange={handleChange}
                         />
                     </div>
@@ -88,7 +88,7 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                             className="text-field"
                             id="contactName"
                             label="Nombre del contacto"
-                            value={lead.contactName}
+                            value={client.contactName}
                             onChange={handleChange}
                         />
                 
@@ -97,7 +97,7 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                             className="text-field"
                             id="contactPosition"
                             label="Puesto del contacto"
-                            value={lead.contactPosition}
+                            value={client.contactPosition}
                             onChange={handleChange}
                         />
                     
@@ -106,7 +106,7 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                             className="text-field"
                             id="contactPhone"
                             label="Teléfono"
-                            value={lead.contactPhone}
+                            value={client.contactPhone}
                             onChange={handleChange}
                         />
                     
@@ -116,7 +116,7 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                             type="email"
                             id="contactEmail"
                             label="Email"
-                            value={lead.contactEmail}
+                            value={client.contactEmail}
                             onChange={handleChange}
                         />
 
@@ -125,7 +125,7 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                             type="text"
                             id="commentText"
                             label="Comentarios"
-                            value={lead.commentText}
+                            value={client.commentText}
                             onChange={handleChange}
                         />
                     </div>
@@ -142,8 +142,8 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
             </DialogActions>: 
             <DialogActions>
                 <Button onClick={closeDialog} >Cancelar</Button>
-                <Button onClick={() => deleteLead(lead._id)} color="secondary" variant="contained" >Borrar</Button>
-                <Button onClick={() => updateLead(lead._id)} color="primary" variant="contained">
+                <Button onClick={() => deleteLead(client._id)} color="secondary" variant="contained" >Borrar</Button>
+                <Button onClick={() => updateLead(client._id)} color="primary" variant="contained">
                     Actualizar
                 </Button> 
             </DialogActions>}
@@ -153,4 +153,4 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
   )
 }
 
-export default FormDialog
+export default ClientDialog

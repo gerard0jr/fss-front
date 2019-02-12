@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from '@material-ui/core'
-import './styles.css'
+import '../styles.css'
 import LeadsTable from './LeadsTable';
 import FormDialog from './FormDialog';
 
