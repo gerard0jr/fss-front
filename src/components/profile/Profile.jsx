@@ -4,6 +4,7 @@ import './styles.css'
 import { CameraAlt, ExitToApp } from '@material-ui/icons';
 import firebase from '../../services/firebase'
 import { logout } from '../../services/auth'
+import { withRouter } from 'react-router-dom'
 
 class Profile extends Component{
     state = {
@@ -62,13 +63,20 @@ class Profile extends Component{
         document.getElementById('photoUpload').click()
     }
 
-    logout = () => logout().then(this.props.history.push('/login')).catch(err => err)
+    closeSession = () => 
+        logout()
+        .then(res => {
+            const { history } = this.props
+            localStorage.removeItem('user')
+            return history.push('/login')
+        })
+        .catch(err => err)
 
     close = () => this.setState({open: false})
 
     render() {
         const { open, user, message, progress } = this.state
-        const { handleChange, close, uploadPhoto, clickInput } = this
+        const { handleChange, close, uploadPhoto, clickInput, closeSession } = this
         return (
             <div>
             <Paper className="paper-profile">
@@ -105,7 +113,7 @@ class Profile extends Component{
                     </div>
                     <input onChange={uploadPhoto} type="file" name="photoURL" id="photoUpload" style={{display:"none"}}/>
                 </form>
-                <Button style={{margin:"2rem 0"}} onClick={logout} variant="contained" color="secondary">
+                <Button style={{margin:"2rem 0"}} onClick={closeSession} variant="contained" color="secondary">
                     Cerrar sesión
                     <ExitToApp style={{marginLeft:"0.5rem"}}/>
                 </Button> 
@@ -116,4 +124,4 @@ class Profile extends Component{
       }
 }
 
-export default Profile
+export default withRouter(Profile)

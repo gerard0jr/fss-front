@@ -1,6 +1,6 @@
 import axios from 'axios'
-// const url = 'http://localhost:3000/auth'
-const url = 'https://crm-fss.herokuapp.com/auth'
+const url = 'http://localhost:3000/auth'
+// const url = 'https://crm-fss.herokuapp.com/auth'
 
 export const signup = user => 
     axios.post(`${url}/signup`, user, {})
@@ -13,7 +13,7 @@ export const login = user =>
     .catch(err => err.response)
 
 export const logout = () => 
-    axios.post(`${url}/logout`)
+    axios.get(`${url}/logout`)
     .then(res => res.data)
     .catch(err => err.response)
 
