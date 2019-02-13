@@ -11,9 +11,11 @@
     margin-right: 2rem;
 }
 
-.profile-circled img{
-    width: 30px;
-    height: 30px;
-    margin-right: 10px;
-    border-radius: 50%;
+.chip-color{
+    color:white !important; 
+    background-color:rgb(21, 160, 245) !important;
+}
+
+.chip-color:hover{
+    background-color: rgb(58, 179, 255) !important;
 }

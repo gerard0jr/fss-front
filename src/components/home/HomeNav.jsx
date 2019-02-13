@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppBar, Toolbar, IconButton, Avatar } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Avatar, Chip } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu'
 import classNames from 'classnames';
 import PropTypes from 'prop-types'
@@ -30,7 +30,11 @@ const HomeNav = ({classes,open, handleDrawerOpen, photoURL, role, toHome}) => {
                 <img onClick={toHome} style={{width:"100px", cursor:"pointer"}} src="/logo.png" alt="fss-logo"/>
             </div>
             <div className="profile-circled">
-                <Avatar alt="profile-mini-pic" src={photoURL}/><span>{role}</span>
+                <Chip className="chip-color"
+                    clickable
+                    avatar={<Avatar alt="profile-mini-pic" 
+                    src={photoURL}/>} 
+                    label={role}/>
             </div>
         </Toolbar>
     </AppBar>
