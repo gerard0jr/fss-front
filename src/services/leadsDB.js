@@ -29,6 +29,6 @@ export const removeUserLead = (userID, leadID) => {
 
 export const actLead = (id, lead) => {
     return axios.post(`${url}/updateLead/${id}`, lead)
-    .then(updatedUser => updatedUser)
+    .then(updatedLead => updatedLead)
     .catch(err => err.response)
 }

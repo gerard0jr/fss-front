@@ -20,7 +20,8 @@ class Sales extends Component {
         message: String,
         open: false,
         dialog: false,
-        dialogNew: false
+        dialogNew: false,
+        loading: true
     }
 
     componentDidMount = () => {
@@ -30,6 +31,8 @@ class Sales extends Component {
         
     }
     
+    componentWillUnmount = () => this.setState({loading: true})
+
     handleChange = e => {
         const { lead } = this.state
         if(e.target.name === 'Origen') {
@@ -40,10 +43,11 @@ class Sales extends Component {
         this.setState({lead})
     }
 
-    handleDateChange = (id, newLead, interested = null) => date => {
+    handleDateChange = (id, newLead, status = null) => date => {
         const lead = newLead
-        if(interested !== null){
-            lead['interested'] = !interested
+        if(date.target.name === 'status'){
+            lead['status'] = date.target.value
+            console.log(lead)
             return this.setState({lead}, () => this.updateLead(id))    
         }
         lead['meetingDate'] = date
@@ -53,13 +57,16 @@ class Sales extends Component {
     getLeads = () => {
         const { user } = this.state
         getAll(user._id)
-            .then(userLeads => this.setState({leads: userLeads.data.leads}))
+            .then(userLeads => this.setState({leads: userLeads.data.leads, loading: false}))
             .catch(err => console.log(err))
     }
 
     submitLead = () => {
-        const { user, lead } = this.state
-        lead['commentPostedBy'] = user.name
+        const { user, lead, leads } = this.state
+        lead['commentPostedBy'] = user._id
+        lead.prefix = 'LD'
+        lead.seller = user.name[0].toUpperCase() + user.name[1].toUpperCase()
+        lead.number = leads.length > 0 ? leads[leads.length - 1].number + 1 : 1
         newLead(user._id, lead)
             .then(userUpdated => {
                 localStorage.setItem('user', JSON.stringify(userUpdated.data))
@@ -70,10 +77,9 @@ class Sales extends Component {
     }
 
     updateLead = id => {
-        const { user, lead } = this.state
+        const { lead } = this.state
         actLead(id, lead)
         .then(newLead => {
-            this.getLeads(user._id)
             this.setState({dialog: false, open: true, message:'Actualizado correctamente'})
         })
         .catch(err => console.log(err))
@@ -122,7 +128,7 @@ class Sales extends Component {
   render() {
       const { classes } = this.props
       const { value, message, page, rowsPerPage, lead, user, open, leads, dialog,
-            dialogNew, client, clients } = this.state
+            dialogNew, client, clients, loading } = this.state
       const { handleTabs, handleChange, handleChangePage, handleChangeRowsPerPage, close,
             submitLead, getLeads, clearLead, deleteLead, closeDialog, openDialog,
             updateLead, handleDateChange } = this
@@ -166,6 +172,7 @@ class Sales extends Component {
             handleDateChange={handleDateChange}
             client={client}
             clients={clients}
+            loading={loading}
         />
         <Snack close={close} message={message} open={open}/>
       </div>

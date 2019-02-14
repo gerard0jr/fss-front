@@ -6,7 +6,7 @@ import FormDialog from './FormDialog';
 
 const SalesOp = ({handleChange, lead, leads, handleChangePage, handleChangeRowsPerPage,
     rowsPerPage, page, submitLead, clearLead, deleteLead, openDialog, closeDialog, dialog, 
-    dialogNew, updateLead, handleDateChange}) => {
+    dialogNew, updateLead, handleDateChange, loading}) => {
   return (
     <div
     style={{margin:"1em 0"}}>
@@ -27,6 +27,7 @@ const SalesOp = ({handleChange, lead, leads, handleChangePage, handleChangeRowsP
             submitLead={submitLead}
             updateLead={updateLead}
             handleDateChange={handleDateChange}
+            loading={loading}
         />
         <div>
             <Button onClick={() => openDialog({},'new')} variant="contained" color="primary">

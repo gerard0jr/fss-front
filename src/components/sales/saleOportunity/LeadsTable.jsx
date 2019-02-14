@@ -1,6 +1,6 @@
 import React from 'react'
 import { Table, TableBody, TableHead, TableCell, TableRow, Paper, 
-    TablePagination, CircularProgress, Grid, FormControlLabel, Checkbox } from '@material-ui/core'
+    TablePagination, CircularProgress, Grid, FormControl, Select, MenuItem } from '@material-ui/core'
 import { Edit } from '@material-ui/icons';
 import FormDialog from './FormDialog';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
@@ -9,13 +9,14 @@ import esLocale from 'date-fns/locale/es'
 
 const LeadsTable = ({leads, rowsPerPage, page, handleChangePage, 
     handleChangeRowsPerPage, deleteLead, dialog, closeDialog, handleChange, lead,
-    clearLead, submitLead, openDialog, updateLead, handleDateChange}) => {
+    clearLead, submitLead, openDialog, updateLead, handleDateChange, loading}) => {
   return (<div>
     <Paper id="tablas" style={{width:"100%", margin: "1em auto", padding:"1em"}}>
     <div style={{overflowX: 'auto'}}>
         <Table>
             <TableHead>
             <TableRow>
+                <TableCell>ID</TableCell>
                 <TableCell>Empresa</TableCell>
                 <TableCell>Giro</TableCell>
                 <TableCell>Empleados</TableCell>
@@ -26,7 +27,7 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                 <TableCell>Email</TableCell>
                 <TableCell>Industria</TableCell>
                 <TableCell>Origen</TableCell>
-                <TableCell>Interesado</TableCell>
+                <TableCell>Estatus</TableCell>
                 <TableCell>Reunión</TableCell>
                 <TableCell></TableCell>
                 <TableCell>Comentarios</TableCell>
@@ -35,11 +36,12 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
             </TableRow>
             </TableHead>
             <TableBody>
-            {leads ? leads.map((lead, k) => {
+            {leads.length ? leads.map((lead, k) => {
                 return (
                 //el 10 se reemplaza por el número de filas en la tabla para la paginación
                 (k < ((page * 10) + 10) && k >= (page * 10)) ? 
                 <TableRow key={k}>
+                    <TableCell style={{width:"200px", padding: "8px"}}>{`${lead.prefix}-${lead.seller}-${lead.number}`}</TableCell>
                     <TableCell component="th" scope="row">
                         {lead.bussinessName}
                     </TableCell>
@@ -52,18 +54,24 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                     <TableCell><a style={{color:"#1976d2"}} href={`mailto:${lead.contactEmail}`}>{lead.contactEmail}</a></TableCell>
                     <TableCell>{lead.industry}</TableCell>
                     <TableCell>{lead.origin}</TableCell>
-                    {/* Checkbox de interesado */}
+                    {/* Opciones de interesado */}
                     <TableCell>
-                        <FormControlLabel
-                        control={
-                            <Checkbox
-                            checked={lead.interested}
-                            onChange={handleDateChange(lead._id, lead, lead.interested)}
-                            value={lead.interested}
-                            id='interested'
-                            />
-                        }
-                        />
+                        <FormControl>
+                            <Select
+                                value={lead.status}
+                                onChange={handleDateChange(lead._id, lead, lead.status)}
+                                inputProps={{
+                                name: 'status',
+                                id: 'status',
+                                }}
+                            >
+                            <MenuItem value={'Propuesta'} >Propuesta</MenuItem>
+                            <MenuItem value={'Negociación'} >Negociación</MenuItem>
+                            <MenuItem value={'Confirmación de pedido'} >Confirmación de pedido (Ganada)</MenuItem>
+                            <MenuItem value={'Perdida'} >Perdida</MenuItem>
+                            <MenuItem value={'Primer cobro'} >Primer cobro</MenuItem>
+                            </Select>
+                        </FormControl>
                     </TableCell>
                     {/* Inputs de fecha y hora de reunión */}
                     <TableCell style={{width:"200px", padding: "8px"}}> 
@@ -103,11 +111,11 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                 </TableRow> : ""
                 );
             }) : <TableRow>
-                    <TableCell component="th" scope="row">
-                        Cargando datos
+                    <TableCell style={{width:"200px", padding: "5px"}} component="th" scope="row">
+                       {loading ? 'Cargando...' : 'No hay leads'}
                     </TableCell>
                     <TableCell component="th" scope="row">
-                        <CircularProgress color="secondary" style={{margin:"1em"}}/>
+                        {loading ? <CircularProgress color="secondary" style={{margin:"1em"}}/> : ''}
                     </TableCell>
                 </TableRow>}
             </TableBody>
