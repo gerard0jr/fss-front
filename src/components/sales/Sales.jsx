@@ -47,7 +47,6 @@ class Sales extends Component {
         const lead = newLead
         if(date.target.name === 'status'){
             lead['status'] = date.target.value
-            console.log(lead)
             return this.setState({lead}, () => this.updateLead(id))    
         }
         lead['meetingDate'] = date
@@ -62,7 +61,8 @@ class Sales extends Component {
     }
 
     submitLead = () => {
-        const { user, lead, leads } = this.state
+        const { user, lead, leads = [] } = this.state
+        console.log(leads)
         lead['commentPostedBy'] = user._id
         lead.prefix = 'LD'
         lead.seller = user.name[0].toUpperCase() + user.name[1].toUpperCase()
