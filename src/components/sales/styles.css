@@ -51,9 +51,40 @@
 
 .left-column, .right-column{
     width: 50%;
-    padding: 0 2rem;
+    padding: 0 1rem;
 }
 
 .right-column{
     border-left: 2px solid rgba(0,0,0,0.12);
+}
+
+.file-layout{
+    display: flex;
+    flex-grow: 1;
+}
+
+.file-input{
+    width: 50%;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.file-input p{
+    margin: 0 0 0.3rem 0;
+}
+
+.general-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.success-upload{
+    color:#55C400; 
+    text-decoration: none;
+    font-size: 0.8rem;
+}
+
+.success-upload:visited{
+    color:#55C400; 
 }

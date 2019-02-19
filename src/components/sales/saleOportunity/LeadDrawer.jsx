@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import { Drawer, Divider, Button, Dialog, DialogTitle, DialogActions } from '@material-ui/core';
 import '../styles.css'
 import FormDialog from './FormDialog';
+import FileUpload from './FileUpload';
 
 const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange, 
     handleDateChange, loading, updateLead, dialog, closeDialog, openDialog}) => {
@@ -42,12 +43,16 @@ const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange,
             </div>
             <Divider variant="middle" />
             <div className="">
+                {/* Comentarios del lead*/}
                 <p className="small-font">Comentarios:</p>
                 <p className="blue-font">{lead.commentText}</p>
                 <Divider />
                 <p className="small-font">Archivos:</p>
+                {/* Manejo de archivos */}
+                <FileUpload lead={lead}/>
 
             </div>
+            {/* Botones de acción para Drawer */}
             <div className="button-container">
                 <Button onClick={closeDrawer} >Cerrar</Button>
                 <Button onClick={toggleDialog} variant="contained" color="secondary">

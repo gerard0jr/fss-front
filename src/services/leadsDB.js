@@ -32,3 +32,15 @@ export const actLead = (id, lead) => {
     .then(updatedLead => updatedLead)
     .catch(err => err.response)
 }
+
+export const file0Upload = (link, id) => {
+    return axios.post(`${url}/file0Upload/${id}`, link)
+        .then(updatedLead => updatedLead)
+        .catch(err => err.response)
+}
+
+export const file1Upload = (link, id) => {
+    return axios.post(`${url}/file1Upload/${id}`, link)
+        .then(updatedLead => updatedLead)
+        .catch(err => err.response)
+}
