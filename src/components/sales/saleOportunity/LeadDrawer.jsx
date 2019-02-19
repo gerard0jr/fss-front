@@ -58,6 +58,7 @@ const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange,
                 </Button>
             </div>
         </div>
+        {/* Diálogo de confirmación para eliminar lead */}
         <Dialog
             open={open}
             onClose={toggleDialog}
@@ -69,11 +70,12 @@ const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange,
                 <Button onClick={toggleDialog} color="primary">
                     Cancelar
                 </Button>
-                <Button onClick={() => {deleteLead(lead._id); toggleDialog(); closeDrawer()}} color="primary" autoFocus>
+                <Button onClick={() => {deleteLead(lead._id); toggleDialog(); closeDrawer()}} color="secondary" autoFocus>
                     Eliminar
                 </Button>
             </DialogActions>
         </Dialog>
+        {/* Diálogo para edición de lead */}
         <FormDialog 
         closeDrawer={closeDrawer}
         dialog={dialog} 
@@ -89,4 +91,5 @@ export default LeadDrawer
 
 // INFO:
 // cotiazción
+// Update lead
 // http://maps.google.com/?q=your+query
