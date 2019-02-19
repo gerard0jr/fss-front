@@ -21,7 +21,8 @@ class Sales extends Component {
         open: false,
         dialog: false,
         dialogNew: false,
-        loading: true
+        loading: true,
+        drawer: false
     }
 
     componentDidMount = () => {
@@ -121,6 +122,10 @@ class Sales extends Component {
         this.setState({ dialog: false, dialogNew: false }, this.getLeads)
     }
 
+    openDrawer = lead => this.setState({drawer:true, lead})
+
+    closeDrawer = () => this.setState({drawer: false, lead: {}})
+
     handleChangePage = (event, page) => this.setState({ page })
 
     handleChangeRowsPerPage = event => this.setState({ rowsPerPage: event.target.value })
@@ -128,10 +133,10 @@ class Sales extends Component {
   render() {
       const { classes } = this.props
       const { value, message, page, rowsPerPage, lead, user, open, leads, dialog,
-            dialogNew, client, clients, loading } = this.state
+            dialogNew, client, clients, loading, drawer } = this.state
       const { handleTabs, handleChange, handleChangePage, handleChangeRowsPerPage, close,
             submitLead, getLeads, clearLead, deleteLead, closeDialog, openDialog,
-            updateLead, handleDateChange } = this
+            updateLead, handleDateChange, openDrawer, closeDrawer } = this
     return (
       <div className={classes.salesMenuRoot}>
         <h2 className="section-title">Ventas</h2>
@@ -173,6 +178,9 @@ class Sales extends Component {
             client={client}
             clients={clients}
             loading={loading}
+            openDrawer={openDrawer}
+            closeDrawer={closeDrawer}
+            drawer={drawer}
         />
         <Snack close={close} message={message} open={open}/>
       </div>

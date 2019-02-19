@@ -4,7 +4,7 @@ import { TextField, Button, FormControl, InputLabel, Select, MenuItem,
 import '../styles.css'
 
 const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead, 
-    submitLead, updateLead, deleteLead, dialogNew}) => {
+    submitLead, updateLead, dialogNew, closeDrawer}) => {
   return (
     <Dialog
             open={dialogNew || dialog}
@@ -141,9 +141,8 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                 </Button> 
             </DialogActions>: 
             <DialogActions>
-                <Button onClick={closeDialog} >Cancelar</Button>
-                <Button onClick={() => deleteLead(lead._id)} color="secondary" variant="contained" >Borrar</Button>
-                <Button onClick={() => updateLead(lead._id)} color="primary" variant="contained">
+                <Button onClick={() => {closeDialog(); closeDrawer()}} >Cancelar</Button>
+                <Button onClick={() => { updateLead(lead._id)}} color="primary" variant="contained">
                     Actualizar
                 </Button> 
             </DialogActions>}

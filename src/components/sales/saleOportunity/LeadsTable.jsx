@@ -1,38 +1,31 @@
 import React from 'react'
 import { Table, TableBody, TableHead, TableCell, TableRow, Paper, 
-    TablePagination, CircularProgress, Grid, FormControl, Select, MenuItem } from '@material-ui/core'
+    TablePagination, CircularProgress, Grid, FormControl, Select, MenuItem, Fab } from '@material-ui/core'
 import { Edit } from '@material-ui/icons';
-import FormDialog from './FormDialog';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
 import DateFnsUtils from '@date-io/date-fns'
 import esLocale from 'date-fns/locale/es'
+import LeadDrawer from './LeadDrawer';
 
 const LeadsTable = ({leads, rowsPerPage, page, handleChangePage, 
     handleChangeRowsPerPage, deleteLead, dialog, closeDialog, handleChange, lead,
-    clearLead, submitLead, openDialog, updateLead, handleDateChange, loading}) => {
+    clearLead, submitLead, openDialog, updateLead, handleDateChange, loading,
+    openDrawer, closeDrawer, drawer}) => {
   return (<div>
     <Paper id="tablas" style={{width:"100%", margin: "1em auto", padding:"1em"}}>
     <div style={{overflowX: 'auto'}}>
         <Table>
             <TableHead>
             <TableRow>
+                <TableCell style={{width:"40px", padding: "8px"}}>Ver/Editar</TableCell>
                 <TableCell>ID</TableCell>
                 <TableCell>Empresa</TableCell>
-                <TableCell>Giro</TableCell>
-                <TableCell>Empleados</TableCell>
-                <TableCell>Dirección</TableCell>
                 <TableCell>Contacto</TableCell>
-                <TableCell>Posición</TableCell>
                 <TableCell>Teléfono</TableCell>
                 <TableCell>Email</TableCell>
-                <TableCell>Industria</TableCell>
-                <TableCell>Origen</TableCell>
                 <TableCell>Estatus</TableCell>
                 <TableCell>Reunión</TableCell>
-                <TableCell></TableCell>
-                <TableCell>Comentarios</TableCell>
-                <TableCell>Editar</TableCell>
-                <TableCell>Cotización</TableCell>
+                <TableCell style={{width:'200px', padding:"0 45px"}}></TableCell>
             </TableRow>
             </TableHead>
             <TableBody>
@@ -41,25 +34,30 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                 //el 10 se reemplaza por el número de filas en la tabla para la paginación
                 (k < ((page * 10) + 10) && k >= (page * 10)) ? 
                 <TableRow key={k}>
+                    {/* Detalle */}
+                    <TableCell style={{width: "40px", padding: "8px", textAlign: "center"}}>
+                        <Fab 
+                            onClick={() => openDrawer(lead)} 
+                            variant="extended" 
+                            color="primary" 
+                            size="small"
+                        >
+                            <Edit fontSize="small" />
+                        </Fab>
+                    </TableCell>
                     <TableCell style={{width:"200px", padding: "8px"}}>{`${lead.prefix}-${lead.seller}-${lead.number}`}</TableCell>
                     <TableCell component="th" scope="row">
                         {lead.bussinessName}
                     </TableCell>
-                    <TableCell>{lead.bussinessRole}</TableCell>
-                    <TableCell>{lead.bussinessEmployees}</TableCell>
-                    <TableCell style={{width:"200px", padding: "8px"}}>{lead.bussinessAddress}</TableCell>
                     <TableCell>{lead.contactName}</TableCell>
-                    <TableCell>{lead.contactPosition}</TableCell>
                     <TableCell><a style={{color:"#1976d2"}} href={`tel:+${lead.contactPhone}`}>{lead.contactPhone}</a></TableCell>
                     <TableCell><a style={{color:"#1976d2"}} href={`mailto:${lead.contactEmail}`}>{lead.contactEmail}</a></TableCell>
-                    <TableCell>{lead.industry}</TableCell>
-                    <TableCell>{lead.origin}</TableCell>
                     {/* Opciones de interesado */}
                     <TableCell>
                         <FormControl>
                             <Select
                                 value={lead.status}
-                                onChange={handleDateChange(lead._id, lead, lead.status)}
+                                onChange={handleDateChange(lead._id, lead, lead.status)} //Se utiliza la misma función de fecha
                                 inputProps={{
                                 name: 'status',
                                 id: 'status',
@@ -101,13 +99,6 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                             </Grid>
                         </MuiPickersUtilsProvider>
                     </TableCell>
-                    {/* Comentarios */}
-                    <TableCell>{lead.commentText}</TableCell>
-                    {/* Botón de editar */}
-                    <TableCell>
-                        <Edit onClick={() => openDialog(lead, 'update')} style={{fontSize: "17px", cursor:"pointer"}}/>
-                    </TableCell>
-                    <TableCell>Cotizar</TableCell>
                 </TableRow> : ""
                 );
             }) : <TableRow>
@@ -138,15 +129,20 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
         />
     </Paper>
 
-    <FormDialog 
-        dialog={dialog} 
-        closeDialog={closeDialog} 
-        handleChange={handleChange} 
-        lead={lead}
-        deleteLead={deleteLead}
-        clearLead={clearLead}
-        submitLead={submitLead}
-        updateLead={updateLead}/>
+    <LeadDrawer 
+            drawer={drawer}
+            closeDrawer={closeDrawer}
+            leads={leads}
+            deleteLead={deleteLead} 
+            handleChange={handleChange} 
+            lead={lead}
+            updateLead={updateLead}
+            handleDateChange={handleDateChange}
+            loading={loading}
+            dialog={dialog}
+            closeDialog={closeDialog}
+            openDialog={openDialog}
+        />
   </div>)
 }
 
