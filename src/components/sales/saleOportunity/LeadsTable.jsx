@@ -10,7 +10,7 @@ import LeadDrawer from './LeadDrawer';
 const LeadsTable = ({leads, rowsPerPage, page, handleChangePage, 
     handleChangeRowsPerPage, deleteLead, dialog, closeDialog, handleChange, lead,
     clearLead, submitLead, openDialog, updateLead, handleDateChange, loading,
-    openDrawer, closeDrawer, drawer}) => {
+    openDrawer, closeDrawer, drawer, updateLeadState}) => {
   return (<div>
     <Paper id="tablas" style={{width:"100%", margin: "1em auto", padding:"1em"}}>
     <div style={{overflowX: 'auto'}}>
@@ -142,6 +142,7 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
             dialog={dialog}
             closeDialog={closeDialog}
             openDialog={openDialog}
+            updateLeadState={updateLeadState}
         />
   </div>)
 }

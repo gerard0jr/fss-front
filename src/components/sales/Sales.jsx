@@ -130,13 +130,17 @@ class Sales extends Component {
 
     handleChangeRowsPerPage = event => this.setState({ rowsPerPage: event.target.value })
 
+    updateLeadState = lead => {
+        this.setState({lead}, () => this.getLeads())
+    }
+
   render() {
       const { classes } = this.props
       const { value, message, page, rowsPerPage, lead, user, open, leads, dialog,
             dialogNew, client, clients, loading, drawer } = this.state
       const { handleTabs, handleChange, handleChangePage, handleChangeRowsPerPage, close,
             submitLead, getLeads, clearLead, deleteLead, closeDialog, openDialog,
-            updateLead, handleDateChange, openDrawer, closeDrawer } = this
+            updateLead, handleDateChange, openDrawer, closeDrawer, updateLeadState } = this
     return (
       <div className={classes.salesMenuRoot}>
         <h2 className="section-title">Ventas</h2>
@@ -181,6 +185,7 @@ class Sales extends Component {
             openDrawer={openDrawer}
             closeDrawer={closeDrawer}
             drawer={drawer}
+            updateLeadState={updateLeadState}
         />
         <Snack close={close} message={message} open={open}/>
       </div>

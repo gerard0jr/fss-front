@@ -6,7 +6,8 @@ import FormDialog from './FormDialog';
 
 const SalesOp = ({handleChange, lead, leads, handleChangePage, handleChangeRowsPerPage,
     rowsPerPage, page, submitLead, clearLead, deleteLead, openDialog, closeDialog, dialog, 
-    dialogNew, updateLead, handleDateChange, loading, openDrawer, closeDrawer, drawer}) => {
+    dialogNew, updateLead, handleDateChange, loading, openDrawer, closeDrawer, drawer,
+    updateLeadState}) => {
   return (
     <div
     style={{margin:"1em 0"}}>
@@ -31,6 +32,7 @@ const SalesOp = ({handleChange, lead, leads, handleChangePage, handleChangeRowsP
             openDrawer={openDrawer}
             closeDrawer={closeDrawer}
             drawer={drawer}
+            updateLeadState={updateLeadState}
         />
         
         <div>

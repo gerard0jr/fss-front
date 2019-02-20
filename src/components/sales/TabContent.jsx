@@ -5,7 +5,7 @@ import ClientProspect from './clientProspect/ClientProspect';
 const TabContent = ({value, handleChange, lead, leads, handleChangePage, handleChangeRowsPerPage,
     handleClose, rowsPerPage, page, submitLead, getLeads, clearLead, deleteLead, openDialog, 
     closeDialog, dialog, updateLead, dialogNew, handleDateChange, client, clients, loading,
-    openDrawer, closeDrawer, drawer}) => {
+    openDrawer, closeDrawer, drawer, updateLeadState}) => {
   return (
     <div className="tab-content">
       {
@@ -32,6 +32,7 @@ const TabContent = ({value, handleChange, lead, leads, handleChangePage, handleC
                         openDrawer={openDrawer}
                         closeDrawer={closeDrawer}
                         drawer={drawer}
+                        updateLeadState={updateLeadState}
                       /> :
         value === 1 ? <ClientProspect
                         handleChange={handleChange}

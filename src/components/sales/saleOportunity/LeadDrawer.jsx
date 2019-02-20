@@ -5,7 +5,7 @@ import FormDialog from './FormDialog';
 import FileUpload from './FileUpload';
 
 const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange, 
-    handleDateChange, loading, updateLead, dialog, closeDialog, openDialog}) => {
+    handleDateChange, loading, updateLead, dialog, closeDialog, openDialog, updateLeadState}) => {
     
     const [ open, setOpen] = useState(false)
     let toggleDialog = () => setOpen(!open)
@@ -49,7 +49,7 @@ const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange,
                 <Divider />
                 <p className="small-font">Archivos:</p>
                 {/* Manejo de archivos */}
-                <FileUpload lead={lead}/>
+                <FileUpload updateLeadState={updateLeadState} lead={lead}/>
 
             </div>
             {/* Botones de acción para Drawer */}
