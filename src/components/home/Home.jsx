@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { CssBaseline, Typography} from '@material-ui/core';
+import { CssBaseline} from '@material-ui/core';
 import { styles } from './styles'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
@@ -8,6 +8,7 @@ import HomeDrawer from './HomeDrawer';
 import Profile from '../profile/Profile';
 import Sales from '../sales/Sales';
 import { actUser } from '../../services/auth'
+import Dashboard from '../dashboard/Dashboard';
 
 class Home extends Component {
     state = {
@@ -40,9 +41,9 @@ class Home extends Component {
     close = () => this.setState({open: false})
 
   render() {
-    const { open, direction, location, user, message } = this.state
+    const { open, direction, location, user } = this.state
     const { handleDrawerClose, handleDrawerOpen, handleLocation, 
-        handleChange, close, updateUser, toHome } = this
+            updateUser, toHome } = this
     const { classes } = this.props
     return (
       <div>
@@ -65,7 +66,7 @@ class Home extends Component {
         <main className={classes.content}>
           <div className={classes.toolbar}/>
           {
-              location === 'root' ? <Typography paragraph>Dashboard Principal</Typography> :
+              location === 'root' ? <Dashboard /> :
               location === 'ventas' ? <Sales /> :
               location === 'profile' ? <Profile updateUser={updateUser} /> :
               'Not root'

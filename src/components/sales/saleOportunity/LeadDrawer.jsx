@@ -54,7 +54,7 @@ const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange,
             </div>
             {/* Botones de acción para Drawer */}
             <div className="button-container">
-                <Button onClick={closeDrawer} >Cerrar</Button>
+                <Button variant="contained" onClick={closeDrawer} >Cerrar</Button>
                 <Button onClick={toggleDialog} variant="contained" color="secondary">
                     Borrar
                 </Button>

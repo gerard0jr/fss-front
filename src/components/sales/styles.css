@@ -18,9 +18,11 @@
 }
 
 .button-container{
-    position: absolute;
-    bottom: 10px;
-    width: 85%;
+    position: fixed;
+    left: 0;
+    width: 100%;
+    padding: 1rem 0;
+    background-color: white;
 }
 
 .drawer-layout button{
