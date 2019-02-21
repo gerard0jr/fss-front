@@ -46,12 +46,16 @@ class Sales extends Component {
 
     handleDateChange = (id, newLead, status = null) => date => {
         const lead = newLead
+        
+        if(status === null){
+            lead['meetingDate'] = date
+            return this.setState({lead}, () => this.updateLead(id))
+        }
+        
         if(date.target.name === 'status'){
             lead['status'] = date.target.value
             return this.setState({lead}, () => this.updateLead(id))    
         }
-        lead['meetingDate'] = date
-        this.setState({lead}, () => this.updateLead(id))
     }
 
     getLeads = () => {
@@ -143,7 +147,6 @@ class Sales extends Component {
             updateLead, handleDateChange, openDrawer, closeDrawer, updateLeadState } = this
     return (
       <div className={classes.salesMenuRoot}>
-        <h2 className="section-title">Ventas</h2>
         <AppBar position="static" color="default">
             <Tabs
                 value={value}

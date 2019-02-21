@@ -69,7 +69,6 @@ export const styles = theme => ({
     flexGrow: 1
   },
   salesMenuRoot:{
-    marginTop: '-20px',
     flexGrow: 1,
     width: '100%',
     backgroundColor: theme.palette.background.paper,

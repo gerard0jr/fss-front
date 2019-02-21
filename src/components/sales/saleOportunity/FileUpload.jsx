@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import '../styles.css'
 import firebase from '../../../services/firebase'
-import { CircularProgress, IconButton, Dialog, DialogTitle, DialogActions, Button } from '@material-ui/core'
+import { IconButton, Dialog, DialogTitle, DialogActions, Button, LinearProgress } from '@material-ui/core'
 import { file0Upload, file1Upload, deleteFile0, deleteFile1 } from '../../../services/leadsDB'
 import { Delete } from '@material-ui/icons';  
 
@@ -121,7 +121,7 @@ const FileUpload = ({lead, updateLeadState}) => {
             </div>
         </div>
         <div className="progress">
-            {loading ? <CircularProgress/> : ''}
+            {loading ? <LinearProgress/> : ''}
         </div>
         <Dialog
             open={open0}

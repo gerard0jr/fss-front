@@ -11,7 +11,6 @@ const SalesOp = ({handleChange, lead, leads, handleChangePage, handleChangeRowsP
   return (
     <div
     style={{margin:"1em 0"}}>
-        <h4>Leads</h4>
         <LeadsTable
             handleChangePage={handleChangePage} 
             handleChangeRowsPerPage={handleChangeRowsPerPage} 

@@ -8,28 +8,29 @@ import esLocale from 'date-fns/locale/es'
 import LeadDrawer from './LeadDrawer';
 
 const LeadsTable = ({leads, rowsPerPage, page, handleChangePage, 
-    handleChangeRowsPerPage, deleteLead, dialog, closeDialog, handleChange, lead,
-    clearLead, submitLead, openDialog, updateLead, handleDateChange, loading,
-    openDrawer, closeDrawer, drawer, updateLeadState}) => {
+    handleChangeRowsPerPage, deleteLead, dialog, closeDialog, handleChange, lead, 
+    openDialog, updateLead, handleDateChange, loading, openDrawer, closeDrawer, 
+    drawer, updateLeadState}) => {
   return (<div>
     <Paper id="tablas" style={{width:"100%", margin: "1em auto", padding:"1em"}}>
     <div style={{overflowX: 'auto'}}>
+        <h4 style={{textAlign:"left", marginLeft:"1rem"}}>Leads</h4>
         <Table>
             <TableHead>
-            <TableRow>
-                <TableCell style={{width:"40px", padding: "8px"}}>Ver/Editar</TableCell>
-                <TableCell>ID</TableCell>
-                <TableCell>Empresa</TableCell>
-                <TableCell>Contacto</TableCell>
-                <TableCell>Teléfono</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Estatus</TableCell>
-                <TableCell>Reunión</TableCell>
-                <TableCell style={{width:'200px', padding:"0 45px"}}></TableCell>
-            </TableRow>
+                <TableRow>
+                    <TableCell style={{width:"40px", padding: "8px"}}>Ver/Editar</TableCell>
+                    <TableCell>ID</TableCell>
+                    <TableCell>Empresa</TableCell>
+                    <TableCell>Contacto</TableCell>
+                    <TableCell>Teléfono</TableCell>
+                    <TableCell>Email</TableCell>
+                    <TableCell>Estatus</TableCell>
+                    <TableCell>Reunión</TableCell>
+                    <TableCell style={{width:'200px', padding:"0 45px"}}></TableCell>
+                </TableRow>
             </TableHead>
             <TableBody>
-            {leads.length ? leads.map((lead, k) => {
+            {leads.length ? leads.reverse().map((lead, k) => {
                 return (
                 //el 10 se reemplaza por el número de filas en la tabla para la paginación
                 (k < ((page * 10) + 10) && k >= (page * 10)) ? 
