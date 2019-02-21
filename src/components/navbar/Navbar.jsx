@@ -10,7 +10,7 @@ const Navbar = () => {
     <AppBar position="static">
         <Toolbar className="grow">
             <Link to="/login"><img style={{width:"100px", cursor:"pointer"}} src="/logo.png" alt="fss-logo"/></Link>
-            <Button color="inherit"><Link style={{color:"white"}} to="/login">Login</Link></Button>
+            <Button color="inherit"><Link style={{color:"white"}} to="/login">Iniciar sesión</Link></Button>
         </Toolbar>
     </AppBar>
   )

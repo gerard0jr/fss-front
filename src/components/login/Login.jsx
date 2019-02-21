@@ -50,8 +50,9 @@ export default class Login extends Component {
     return (
       <div>
         <Navbar/>
+        <div className="landing-image"/>
         <Paper className="paper-signup">
-          <h2>Inicio de sesión</h2>
+          <h2>Ingresa a tu cuenta</h2>
           <form>
             <div>
               <TextField

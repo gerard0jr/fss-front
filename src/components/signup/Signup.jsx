@@ -5,6 +5,7 @@ import { signup } from '../../services/auth'
 import Snack from '../snackbar/Snack';
 import Navbar from '../navbar/Navbar';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
+import { Link } from 'react-router-dom'
 
 export default class Signup extends Component {
   state = {
@@ -69,6 +70,7 @@ export default class Signup extends Component {
     return (
       <div>
         <Navbar/>
+        <div className="landing-image"/>
         <Paper className="paper-signup">
           <h2>Registro de usuario</h2>
           <form>
@@ -123,13 +125,14 @@ export default class Signup extends Component {
               margin="normal"
               />
             </div>
-            <Button disabled={disabledMail || disabledPass} onClick={handleSubmit} style={{margin:"1rem 0"}} variant="contained" color="primary">
-              Registrarme
-            </Button>
             <div>
               {errorPass ? <small style={{color:"red"}}>La contraseña no coincide</small> : ''}
             </div>
+            <Button disabled={disabledMail || disabledPass} onClick={handleSubmit} style={{margin:"1rem 0"}} variant="contained" color="primary">
+              Registrarme
+            </Button>
           </form>
+          <small>¿Ya tienes una cuenta? <Link to="login">Inicia sesión</Link></small>
         </Paper>
         <Snack close={close} message={message} open={open}/>
       </div>
