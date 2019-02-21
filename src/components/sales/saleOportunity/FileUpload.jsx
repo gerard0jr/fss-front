@@ -91,7 +91,7 @@ const FileUpload = ({lead, updateLeadState}) => {
                         <Delete />
                     </IconButton>
                 </div>: 
-                <div>
+                <div className="input">
                     <input onChange={handleFile} type="file" name="file0" id="first"/>
                     <button id="file0" onClick={file0Submit}>Subir</button>
                 </div>}
@@ -109,7 +109,7 @@ const FileUpload = ({lead, updateLeadState}) => {
                         <Delete />
                     </IconButton>
                 </div>: 
-                <div>
+                <div className="input">
                     <input onChange={handleFile} type="file" name="file1" id="first"/>
                     <button id="file1" onClick={file1Submit}>Subir</button>
                 </div>}

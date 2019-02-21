@@ -18,7 +18,7 @@
 }
 
 .button-container{
-    position: fixed;
+    position: sticky;
     left: 0;
     width: 100%;
     padding: 1rem 0;
@@ -89,4 +89,14 @@
 
 .success-upload:visited{
     color:#55C400; 
+}
+
+.input{
+    min-width: 260px;
+    padding: 18px;
+    box-sizing: border-box;
+}
+
+.input input{
+    width: 160px;
 }
