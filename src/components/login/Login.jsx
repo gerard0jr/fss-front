@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Paper, TextField, Button } from '@material-ui/core';
+import { Paper, TextField, Button, InputAdornment, IconButton } from '@material-ui/core';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 import '../signup/signup.css'
 import { login } from '../../services/auth'
 import Snack from '../snackbar/Snack';
@@ -10,7 +11,8 @@ export default class Login extends Component {
   state = {
     user: {},
     message: String,
-    open: false
+    open: false,
+    showPassword : false
   }
 
   componentDidMount = () => {
@@ -40,9 +42,11 @@ export default class Login extends Component {
 
   close = () => this.setState({open: false})
 
+  togglePassword = () => this.setState({showPassword: !this.state.showPassword})
+
   render() {
-    const { user, message, open } = this.state
-    const { handleChange, handleSubmit, close } = this
+    const { user, message, open, showPassword } = this.state
+    const { handleChange, handleSubmit, close, togglePassword } = this
     return (
       <div>
         <Navbar/>
@@ -61,10 +65,20 @@ export default class Login extends Component {
             <div>
               <TextField
               id="password"
+              type={showPassword ? 'text' : 'password'}
               label="Contraseña"
               value={user.password}
               onChange={handleChange}
               margin="normal"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton aria-label="Toggle password visibility" onClick={togglePassword}>
+                      {showPassword ? <VisibilityOff /> : <Visibility />} 
+                    </IconButton>
+                  </InputAdornment> 
+                )
+              }}
               />
             </div>
             <Button onClick={handleSubmit} style={{margin:"1rem 0"}} variant="contained" color="primary">

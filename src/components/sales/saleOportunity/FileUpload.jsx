@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import '../styles.css'
 import firebase from '../../../services/firebase'
-import { CircularProgress, IconButton } from '@material-ui/core';
+import { CircularProgress, IconButton, Dialog, DialogTitle, DialogActions, Button } from '@material-ui/core'
 import { file0Upload, file1Upload, deleteFile0, deleteFile1 } from '../../../services/leadsDB'
 import { Delete } from '@material-ui/icons';  
 
@@ -10,6 +10,11 @@ const FileUpload = ({lead, updateLeadState}) => {
     const [file0,setFile0] = useState(null)
     const [file1,setFile1] = useState(null)
     const [loading,setloading] = useState(false)
+    const [ open0, setOpen0] = useState(false)
+    const [ open1, setOpen1] = useState(false)
+
+    let toggleDialog0 = () => setOpen0(!open0)
+    let toggleDialog1 = () => setOpen1(!open1)
     
     let handleFile = e => 
         e.target.name === 'file0' ? setFile0(e.target.files[0]) : setFile1(e.target.files[0])
@@ -87,7 +92,7 @@ const FileUpload = ({lead, updateLeadState}) => {
                     >
                         Archivo en el sistema
                     </a>
-                    <IconButton onClick={() => deleteFirstFile(lead._id)} aria-label="Delete">
+                    <IconButton onClick={toggleDialog0} aria-label="Delete">
                         <Delete />
                     </IconButton>
                 </div>: 
@@ -105,7 +110,7 @@ const FileUpload = ({lead, updateLeadState}) => {
                     >
                         Archivo en el sistema
                     </a>
-                    <IconButton onClick={() => deleteSecondFile(lead._id)} aria-label="Delete">
+                    <IconButton onClick={toggleDialog1} aria-label="Delete">
                         <Delete />
                     </IconButton>
                 </div>: 
@@ -118,6 +123,38 @@ const FileUpload = ({lead, updateLeadState}) => {
         <div className="progress">
             {loading ? <CircularProgress/> : ''}
         </div>
+        <Dialog
+            open={open0}
+            onClose={toggleDialog0}
+        >
+            <DialogTitle>
+                ¿Deseas eliminar "Primer archivo"?
+            </DialogTitle>
+            <DialogActions>
+                <Button onClick={toggleDialog0} color="primary">
+                    Cancelar
+                </Button>
+                <Button onClick={() => {deleteFirstFile(lead._id); toggleDialog0();}} color="secondary" autoFocus>
+                    Eliminar
+                </Button>
+            </DialogActions>
+        </Dialog>
+        <Dialog
+            open={open1}
+            onClose={toggleDialog1}
+        >
+            <DialogTitle>
+                ¿Deseas eliminar "Segundo archivo"?
+            </DialogTitle>
+            <DialogActions>
+                <Button onClick={toggleDialog1} color="primary">
+                    Cancelar
+                </Button>
+                <Button onClick={() => {deleteSecondFile(lead._id); toggleDialog1();}} color="secondary" autoFocus>
+                    Eliminar
+                </Button>
+            </DialogActions>
+        </Dialog>
     </div>
   )
 }
