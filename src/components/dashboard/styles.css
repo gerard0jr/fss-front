@@ -26,3 +26,17 @@
 .order-cell{
     cursor: pointer;
 }
+
+.general-info{
+    margin: 2rem 0 1rem 0;
+    text-align: left;
+}
+
+.canvasjs-chart-credit{
+    display: none;
+}
+
+canvas{
+    width: 300px !important;
+    height: auto !important;
+}

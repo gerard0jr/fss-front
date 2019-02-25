@@ -11,6 +11,7 @@ export default class Dashboard extends Component {
         leads: [],
         page: 0,
         rowsPerPage: 5,
+        summaryData: {}
     }
     
     componentDidMount = () => {
@@ -21,10 +22,22 @@ export default class Dashboard extends Component {
 
     componentWillUnmount = () => this.setState({loading: true})
 
+    getSummaryData = () => {
+        const { leads } = this.state
+        let summaryData = {
+            propuesta: leads.reduce((acc,lead) => {if(lead.status === 'Propuesta') acc ++; return acc},0),
+            negociacion: leads.reduce((acc,lead) => {if(lead.status === 'Negociación') acc ++; return acc},0),
+            confirmacion: leads.reduce((acc,lead) => {if(lead.status === 'Confirmación de pedido') acc ++; return acc},0),
+            perdida: leads.reduce((acc,lead) => {if(lead.status === 'Perdida') acc ++; return acc},0),
+            ganada: leads.reduce((acc,lead) => {if(lead.status === 'Primer Cobro') acc ++; return acc},0),
+        }
+        this.setState({summaryData})
+    }
+
     getLeads = () => {
         const { user } = this.state
         getAll(user._id)
-            .then(userLeads => this.setState({leads: userLeads.data.leads, loading: false}))
+            .then(userLeads => this.setState({leads: userLeads.data.leads, loading: false}, this.getSummaryData))
             .catch(err => console.log(err))
     }
 
@@ -37,7 +50,7 @@ export default class Dashboard extends Component {
     }
 
   render() {
-      const { loading, leads, page, rowsPerPage } = this.state
+      const { loading, leads, page, rowsPerPage, summaryData } = this.state
       const { handleChangePage, orderById} = this
     return (
         <div className="dashboard-layout">
@@ -48,6 +61,7 @@ export default class Dashboard extends Component {
                 rowsPerPage={rowsPerPage}
                 handleChangePage={handleChangePage}
                 orderById={orderById}
+                summaryData={summaryData}
             />
         </div>
     )

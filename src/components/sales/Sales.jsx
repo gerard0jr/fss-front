@@ -159,7 +159,6 @@ class Sales extends Component {
                 <Tab label="Formalizar cuentas" />
                 <Tab label="Supervisar implementación del servicio" />
                 <Tab label="Quejas/Sugerencias" />
-                <Tab label="Satisfacción del cliente" />
             </Tabs>
         </AppBar>
         <TabContent 

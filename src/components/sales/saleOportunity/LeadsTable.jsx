@@ -30,7 +30,7 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                 </TableRow>
             </TableHead>
             <TableBody>
-            {leads.length ? leads.reverse().map((lead, k) => {
+            {leads.length ? leads.map((lead, k) => {
                 return (
                 //el 10 se reemplaza por el número de filas en la tabla para la paginación
                 (k < ((page * 10) + 10) && k >= (page * 10)) ? 

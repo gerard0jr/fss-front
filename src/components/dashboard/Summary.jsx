@@ -2,8 +2,10 @@ import React from 'react'
 import './styles.css'
 import { Paper } from '@material-ui/core';
 import LeadsTable from './LeadsTable';
+import DashboardPieChart from '../charts/DashboardPieChart';
 
-const Summary = ({leads, page, rowsPerPage, handleChangePage, loading, orderById}) => {
+const Summary = ({leads, page, rowsPerPage, handleChangePage, loading, orderById, summaryData}) => {
+
   return (
     <div className="cards">
       <Paper className="card">
@@ -18,11 +20,12 @@ const Summary = ({leads, page, rowsPerPage, handleChangePage, loading, orderById
         />
       </Paper>
       <Paper className="card">
-        <h4>Cotizaciones</h4>
-        <h5>13</h5>
+        <h4>General</h4>
+        <div className="general-info">
+          {leads ? <DashboardPieChart {...summaryData} /> : 'No hay datos para mostrar'}
+        </div>
       </Paper>
     </div>
   )
 }
-
 export default Summary
