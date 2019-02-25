@@ -68,7 +68,7 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                             <MenuItem value={'Negociación'} >Negociación</MenuItem>
                             <MenuItem value={'Confirmación de pedido'} >Confirmación de pedido (Ganada)</MenuItem>
                             <MenuItem value={'Perdida'} >Perdida</MenuItem>
-                            <MenuItem value={'Primer cobro'} >Primer cobro</MenuItem>
+                            <MenuItem value={'Primer Cobro'} >Primer cobro</MenuItem>
                             </Select>
                         </FormControl>
                     </TableCell>
