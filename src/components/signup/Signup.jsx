@@ -73,6 +73,7 @@ export default class Signup extends Component {
         <div className="landing-image"/>
         <Paper className="paper-signup">
           <h2>Registro de usuario</h2>
+          <img style={{filter:"invert(100%)", width: '200px'}} src="/logo.png" alt="fss-logo"/>
           <form>
             <div>
               <TextField
