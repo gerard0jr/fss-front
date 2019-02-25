@@ -22,7 +22,7 @@ const Summary = ({leads, page, rowsPerPage, handleChangePage, loading, orderById
       <Paper className="card">
         <h4>General</h4>
         <div className="general-info">
-          {leads ? <DashboardPieChart {...summaryData} /> : 'No hay datos para mostrar'}
+        <DashboardPieChart {...summaryData} />
         </div>
       </Paper>
     </div>
