@@ -63,7 +63,7 @@ class Home extends Component {
             classes={classes}
             handleLocation={handleLocation} />
 
-        <main className={classes.content}>
+        <main onClick={handleDrawerClose} className={classes.content}>
           <div className={classes.toolbar}/>
           {
               location === 'root' ? <Dashboard /> :

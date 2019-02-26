@@ -39,7 +39,7 @@ const LeadsTable = ({leads, page, rowsPerPage, handleChangePage, loading, orderB
                         {lead.status}
                     </TableCell>
                     {/* Fecha y hora de reunión */}
-                    <Tooltip title={moment(lead.meetingDate).format("d/MMMM/Y h:m a")} placement="right">
+                    <Tooltip disableFocusListener title={moment(lead.meetingDate).format("d/MMMM/Y h:m a")} placement="right">
                         <TableCell> 
                             {moment(lead.meetingDate).fromNow()}
                         </TableCell>

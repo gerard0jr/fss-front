@@ -44,10 +44,7 @@ export const styles = theme => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: theme.spacing.unit * 7 + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing.unit * 9 + 1,
-    },
+    width: theme.spacing.unit * 7 + 1
   },
   toolbar: {
     display: 'flex',
@@ -58,7 +55,7 @@ export const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    marginLeft: '73px'
+    marginLeft: '57px'
   },
   bigAvatar: {
     margin: 10,

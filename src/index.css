@@ -30,3 +30,7 @@ a{
   padding: 1em;
   box-sizing: border-box;
 }
+
+input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px white inset;
+}
