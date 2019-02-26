@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import { Drawer, Divider, Button, Dialog, DialogTitle, DialogActions } from '@material-ui/core';
+import { Drawer, Divider, Button, Dialog, DialogTitle, DialogActions, FormControl, MenuItem, Select } from '@material-ui/core';
 import '../styles.css'
 import FormDialog from './FormDialog';
 import FileUpload from './FileUpload';
@@ -14,7 +14,23 @@ const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange,
     <Drawer anchor="right" open={drawer} onClose={closeDrawer}>
         <div className="drawer-layout">
             <h2>Detalles de {lead.bussinessName}</h2>
-            <p className="drawer-status">{lead.status}</p> 
+            <FormControl>
+                <Select
+                    className="drawer-status"
+                    value={lead.status}
+                    onChange={handleDateChange(lead._id, lead, lead.status)} //Se utiliza la misma función de fecha
+                    inputProps={{
+                    name: 'status',
+                    id: 'status',
+                    }}
+                >
+                <MenuItem value={'Propuesta'} >Propuesta</MenuItem>
+                <MenuItem value={'Negociación'} >Negociación</MenuItem>
+                <MenuItem value={'Confirmación de pedido'} >Confirmación de pedido (Ganada)</MenuItem>
+                <MenuItem value={'Perdida'} >Perdida</MenuItem>
+                <MenuItem value={'Primer Cobro'} >Primer cobro</MenuItem>
+                </Select>
+            </FormControl>
             <Divider variant="middle" />
             <div className="drawer-two-columns">
                 <div className="left-column">
@@ -92,9 +108,3 @@ const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange,
 }
 
 export default LeadDrawer
-
-
-// INFO:
-// cotiazción
-// Update lead
-// http://maps.google.com/?q=your+query

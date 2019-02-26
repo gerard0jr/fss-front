@@ -31,15 +31,19 @@ export const actLead = (id, lead) =>
 
 // Manejo de archivos
 
-export const file0Upload = (link, id) => 
-    axios.post(`${url}/file0Upload/${id}`, link)
+export const file0Upload = (link, id, name) => {
+    const data = {link, name}
+    return axios.post(`${url}/file0Upload/${id}`, data)
         .then(updatedLead => updatedLead)
         .catch(err => err.response)
+}
 
-export const file1Upload = (link, id) => 
-    axios.post(`${url}/file1Upload/${id}`, link)
+export const file1Upload = (link, id, name) => {
+    const data = {link,name}
+    return axios.post(`${url}/file1Upload/${id}`, data)
         .then(updatedLead => updatedLead)
         .catch(err => err.response)
+}
 
 export const deleteFile0 = id => 
     axios.get(`${url}/deleteFile0/${id}`)

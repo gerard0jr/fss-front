@@ -47,7 +47,7 @@ const FileUpload = ({lead, updateLeadState}) => {
         .then(snap=>snap.ref.getDownloadURL())
         .then(link=>{
                 let link0 = {link}
-                file0Upload(link0, lead._id)
+                file0Upload(link0, lead._id, file0.name)
                 .then(res =>{
                     updateLeadState(res.data)
                     setloading(false)
@@ -72,7 +72,7 @@ const FileUpload = ({lead, updateLeadState}) => {
         .then(snap=>snap.ref.getDownloadURL())
         .then(link=>{
                 let link1 = {link}
-                file1Upload(link1, lead._id)
+                file1Upload(link1, lead._id, file1.name)
                 .then(res => {
                     updateLeadState(res.data)
                     setloading(false)
@@ -85,12 +85,12 @@ const FileUpload = ({lead, updateLeadState}) => {
         <div className="file-layout">
             <div className="file-input">
                 <p className="small-font">Primer archivo</p>
-                {lead.fileURL0 !== null ? 
+                {lead.fileURL0 ? 
                 <div>
                     <a rel="noopener noreferrer" target="_blank" href={lead.fileURL0} 
                         className="success-upload"
                     >
-                        Archivo en el sistema
+                        {lead.file0Name}
                     </a>
                     <IconButton onClick={toggleDialog0} aria-label="Delete">
                         <Delete />
@@ -108,7 +108,7 @@ const FileUpload = ({lead, updateLeadState}) => {
                     <a rel="noopener noreferrer" target="_blank" href={lead.fileURL1} 
                         className="success-upload"
                     >
-                        Archivo en el sistema
+                        {lead.file1Name}
                     </a>
                     <IconButton onClick={toggleDialog1} aria-label="Delete">
                         <Delete />

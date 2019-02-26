@@ -41,6 +41,11 @@
 .drawer-status{
     font-size: 0.9rem;
     color: gray;
+    text-align: center;
+}
+
+input{
+    text-align: center !important;
 }
 
 .drawer-two-columns{
