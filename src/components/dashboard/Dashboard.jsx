@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import Summary from './Summary';
 import './styles.css'
 import { getAll } from '../../services/leadsDB'
+import { getSellers } from '../../services/generalConsults'
+import Employees from './Employees';
 
 export default class Dashboard extends Component {
     
@@ -11,13 +13,14 @@ export default class Dashboard extends Component {
         leads: [],
         page: 0,
         rowsPerPage: 5,
-        summaryData: {}
+        summaryData: {},
+        sellers: []
     }
     
     componentDidMount = () => {
         const user = JSON.parse(localStorage.getItem('user'));
         if (!user) return this.props.history.push('/login')
-        this.setState({user}, this.getLeads)
+        this.setState({user}, () => {this.getLeads(); this.getEmployees()})
     }
 
     componentWillUnmount = () => this.setState({loading: true})
@@ -41,6 +44,12 @@ export default class Dashboard extends Component {
             .catch(err => console.log(err))
     }
 
+    getEmployees = () => {
+        getSellers()
+            .then(sellers => this.setState({sellers: sellers.data}))
+            .catch(err => console.log(err))
+    }
+
     handleChangePage = (event, page) => this.setState({ page })
 
     orderById = () => {
@@ -50,7 +59,7 @@ export default class Dashboard extends Component {
     }
 
   render() {
-      const { loading, leads, page, rowsPerPage, summaryData } = this.state
+      const { loading, leads, page, rowsPerPage, summaryData, sellers } = this.state
       const { handleChangePage, orderById} = this
     return (
         <div className="dashboard-layout">
@@ -62,6 +71,9 @@ export default class Dashboard extends Component {
                 handleChangePage={handleChangePage}
                 orderById={orderById}
                 summaryData={summaryData}
+            />
+            <Employees 
+                sellers={sellers}
             />
         </div>
     )

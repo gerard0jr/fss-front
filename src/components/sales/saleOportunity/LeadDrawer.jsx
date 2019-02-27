@@ -62,6 +62,7 @@ const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange,
                 {/* Comentarios del lead*/}
                 <p className="small-font">Comentarios:</p>
                 <p className="blue-font">{lead.commentText}</p>
+                {lead.status === 'Propuesta' ? <Button style={{margin:"0.5rem"}} variant="contained">Cotizar</Button> : ''}
                 <Divider />
                 <p className="small-font">Archivos:</p>
                 {/* Manejo de archivos */}

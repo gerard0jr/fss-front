@@ -7,7 +7,7 @@
 
 .landing-image{
     position: fixed;
-    background-image: linear-gradient(rgba(24, 117, 210, 0.28), rgba(0, 0, 0, 0.5)), url("https://firebasestorage.googleapis.com/v0/b/fss-react.appspot.com/o/default-assets%2Fbackground1.jpg?alt=media&token=37c884d4-da6b-4e97-8b73-9ad02f503611");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.8)), url("https://firebasestorage.googleapis.com/v0/b/fss-react.appspot.com/o/default-assets%2Fbackground1.jpg?alt=media&token=37c884d4-da6b-4e97-8b73-9ad02f503611");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

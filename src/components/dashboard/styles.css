@@ -1,5 +1,7 @@
 .dashboard-layout{
     margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .cards{
@@ -41,13 +43,26 @@ canvas{
     height: auto !important;
 }
 
+.employees-resume{
+    margin: 3rem 0 2rem 0;
+}
+
+.employees-detail{
+    padding: 1rem;
+}
+
 @media(max-width: 1100px){
     .cards{
         display: block;
     }
+
     .card{
         margin: 2rem auto;
         width: fit-content;   
+    }
+    
+    .employees-resume{
+        margin-top: 0;
     }
 }
 
@@ -55,8 +70,13 @@ canvas{
     .cards{
         display: block;
     }
+
     .card{
         margin: 2rem auto;
         width: max-content;   
+    }
+
+    .employees-resume{
+        margin-top: 0;
     }
 }
