@@ -61,7 +61,7 @@ class Sales extends Component {
     getLeads = () => {
         const { user } = this.state
         getAll(user._id)
-            .then(userLeads => this.setState({leads: userLeads.data.leads, loading: false}))
+            .then(userLeads => this.setState({leads: userLeads.data.leads.reverse(), loading: false}))
             .catch(err => console.log(err))
     }
 
@@ -71,7 +71,7 @@ class Sales extends Component {
         lead['commentPostedBy'] = user._id
         lead.prefix = 'LD'
         lead.seller = user.name[0].toUpperCase() + user.name[1].toUpperCase()
-        lead.number = leads.length > 0 ? leads[leads.length - 1].number + 1 : 1
+        lead.number = leads.length > 0 ? leads[0].number + 1 : 1
         newLead(user._id, lead)
             .then(userUpdated => {
                 localStorage.setItem('user', JSON.stringify(userUpdated.data))
