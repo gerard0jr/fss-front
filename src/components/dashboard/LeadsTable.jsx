@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { Table, TableBody, TableHead, TableCell, TableRow,
-         TablePagination, CircularProgress, Tooltip } from '@material-ui/core'
+         TablePagination, CircularProgress, Tooltip, Grid, TextField } from '@material-ui/core'
 import './styles.css'
 import moment from 'moment'
+import { FilterList } from '@material-ui/icons';
 require('moment/locale/es')
 
 const LeadsTable = ({leads, page, rowsPerPage, handleChangePage, loading, orderById}) => {
 
     let [leadsMutable, setLeads] = useState([])
+    const [ arrayFilter, setArrayFilter ] = useState('')
+    let handleArrayFilter = e => setArrayFilter(e.target.value)
     
     useEffect(() => {
         setLeads(leads)
@@ -15,6 +18,18 @@ const LeadsTable = ({leads, page, rowsPerPage, handleChangePage, loading, orderB
 
   return (
     <div style={{marginTop: "1em"}}>
+        <div style={{display:"flex", justifyContent:"flex-end", alignItems:"center"}}>
+            <Tooltip title="Filtrar lista" placement="bottom">
+                <Grid style={{width:"auto"}} container alignItems="flex-end">
+                <Grid item>
+                    <TextField onChange={handleArrayFilter}  id="search-on-table" label="ID/Empresa" />
+                </Grid>
+                    <Grid item>
+                        <FilterList/>
+                    </Grid>
+                </Grid>
+            </Tooltip>
+        </div>
         <Table>
             <TableHead>
             <TableRow>
@@ -25,7 +40,9 @@ const LeadsTable = ({leads, page, rowsPerPage, handleChangePage, loading, orderB
             </TableRow>
             </TableHead>
             <TableBody>
-            {leadsMutable.length ? leadsMutable.map((lead, k) => {
+            {leadsMutable.length ? leadsMutable.filter(lead =>
+                lead.prefix.concat('-',lead.seller,'-',lead.number).includes(arrayFilter.toUpperCase()) || 
+                lead.bussinessName.toLowerCase().includes(arrayFilter.toLowerCase()) ).map((lead, k) => {
                 return (
                 //el 5 se reemplaza por el número de filas en la tabla para la paginación
                 (k < ((page * 5) + 5) && k >= (page * 5)) ? 
@@ -44,7 +61,7 @@ const LeadsTable = ({leads, page, rowsPerPage, handleChangePage, loading, orderB
                             {moment(lead.meetingDate).fromNow()}
                         </TableCell>
                     </Tooltip>
-                </TableRow> : ""
+                </TableRow> : ''
                 );
             }) : <TableRow>
                     <TableCell style={{width:"200px", padding: "5px"}} component="th" scope="row">

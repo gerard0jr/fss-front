@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Table, TableBody, TableHead, TableCell, TableRow, Paper, 
-    TablePagination, CircularProgress, Grid, FormControl, Select, MenuItem, Fab } from '@material-ui/core'
-import { Edit } from '@material-ui/icons';
+    TablePagination, CircularProgress, Grid, FormControl, Select, MenuItem, Fab, TextField, Tooltip } from '@material-ui/core'
+import { Edit, FilterList } from '@material-ui/icons';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
 import DateFnsUtils from '@date-io/date-fns'
 import esLocale from 'date-fns/locale/es'
@@ -11,10 +11,24 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
     handleChangeRowsPerPage, deleteLead, dialog, closeDialog, handleChange, lead, 
     openDialog, updateLead, handleDateChange, loading, openDrawer, closeDrawer, 
     drawer, updateLeadState}) => {
+        const [ arrayFilter, setArrayFilter ] = useState('')
+        let handleArrayFilter = e => setArrayFilter(e.target.value)
   return (<div>
     <Paper id="tablas" style={{width:"100%", margin: "1em auto", padding:"1em"}}>
     <div style={{overflowX: 'auto'}}>
+    <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
         <h4 style={{textAlign:"left", marginLeft:"1rem"}}>Leads</h4>
+        <Tooltip title="Filtrar lista" placement="bottom">
+            <Grid style={{width:"auto"}} container alignItems="flex-end">
+            <Grid item>
+                <TextField onChange={handleArrayFilter}  id="search-on-table" label="ID/Empresa" />
+            </Grid>
+                <Grid item>
+                    <FilterList/>
+                </Grid>
+            </Grid>
+        </Tooltip>
+    </div>
         <Table>
             <TableHead>
                 <TableRow>
@@ -30,7 +44,10 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                 </TableRow>
             </TableHead>
             <TableBody>
-            {leads.length ? leads.map((lead, k) => {
+            {leads.length ? 
+            leads.filter(lead =>
+                lead.prefix.concat('-',lead.seller,'-',lead.number).includes(arrayFilter.toUpperCase()) || 
+                lead.bussinessName.toLowerCase().includes(arrayFilter.toLowerCase()) ).map((lead, k) => {
                 return (
                 //el 10 se reemplaza por el número de filas en la tabla para la paginación
                 (k < ((page * 10) + 10) && k >= (page * 10)) ? 

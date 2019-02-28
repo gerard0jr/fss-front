@@ -4,6 +4,7 @@ import './styles.css'
 import { getAll } from '../../services/leadsDB'
 import { getSellers } from '../../services/generalConsults'
 import Employees from './Employees';
+import { Divider } from '@material-ui/core';
 
 export default class Dashboard extends Component {
     
@@ -72,6 +73,8 @@ export default class Dashboard extends Component {
                 orderById={orderById}
                 summaryData={summaryData}
             />
+            <Divider style={{marginTop:"1rem"}}/>
+            <small>Administración</small>
             <Employees 
                 sellers={sellers}
             />
