@@ -4,9 +4,9 @@ import '../styles.css'
 import ClientTable from './ClientTable';
 import ClientDialog from './ClientDialog';
 
-const ClientProspect = ({handleChange, client, clients, handleChangePage, handleChangeRowsPerPage,
-    rowsPerPage, page, submitLead, clearLead, deleteLead, openDialog, closeDialog, dialog, 
-    dialogNew, updateLead, handleDateChange}) => {
+const ClientProspect = ({quotations, handleChangePage, handleChangeRowsPerPage,
+    rowsPerPage, page, openDialog, closeDialog, dialog, dialogNew, loading, submitQuotation,
+    handleQuotation, quotation, handleDateChange, updateQuot}) => {
   return (
     <div
     style={{margin:"1em 0"}}>
@@ -16,17 +16,15 @@ const ClientProspect = ({handleChange, client, clients, handleChangePage, handle
             handleChangeRowsPerPage={handleChangeRowsPerPage} 
             page={page} 
             rowsPerPage={rowsPerPage}
-            clients={clients}
-            deleteLead={deleteLead} 
+            quotations={quotations}
+            quotation={quotation}
             dialog={dialog} 
             openDialog={openDialog}
             closeDialog={closeDialog} 
-            handleChange={handleChange} 
-            client={client}
-            clearLead={clearLead}
-            submitLead={submitLead}
-            updateLead={updateLead}
+            loading={loading}
             handleDateChange={handleDateChange}
+            updateQuot={updateQuot}
+            handleQuotation={handleQuotation}
         />
         <div>
             <Button onClick={() => openDialog({},'new')} variant="contained" color="primary">
@@ -36,10 +34,10 @@ const ClientProspect = ({handleChange, client, clients, handleChangePage, handle
         <ClientDialog
         dialogNew={dialogNew} 
         closeDialog={closeDialog} 
-        handleChange={handleChange} 
-        client={client}
-        clearLead={clearLead}
-        submitLead={submitLead}/>
+        quotation={quotation}
+        handleQuotation={handleQuotation}
+        submitQuotation={submitQuotation}
+        />
     </div>
   )
 }

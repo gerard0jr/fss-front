@@ -114,7 +114,8 @@ export default class Signup extends Component {
                   </InputAdornment> 
                 )
               }}
-              />
+              /> <br/>
+              <small style={{fontSize:"0.7rem", color:"rgb(0, 82, 136)", marginTop:"-5px;"}}>Mínimo 6 caracteres</small>
             </div>
             <div>
               <TextField

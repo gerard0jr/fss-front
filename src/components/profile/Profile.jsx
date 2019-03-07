@@ -111,7 +111,7 @@ class Profile extends Component{
                         margin="normal"
                         />
                     </div>
-                    <input onChange={uploadPhoto} type="file" name="photoURL" id="photoUpload" style={{display:"none"}}/>
+                    <input onChange={uploadPhoto} type="file" name="photoURL" id="photoUpload" style={{display:"none"}} accept="image/png, image/jpeg"/>
                 </form>
                 <Button style={{margin:"2rem 0"}} onClick={closeSession} variant="contained" color="secondary">
                     Cerrar sesión

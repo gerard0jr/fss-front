@@ -8,8 +8,8 @@ const Employees = ({sellers}) => {
        <Paper className="card">
             <h4>Vendedores</h4>
             <List className="employees-detail">
-            {sellers ? sellers.map(seller => 
-                <ListItem>
+            {sellers ? sellers.map((seller,k) => 
+                <ListItem key={k}>
                     <Avatar alt="profile-mini-pic" src={seller.photoURL}/>
                     <ListItemText 
                         primary={seller.name}

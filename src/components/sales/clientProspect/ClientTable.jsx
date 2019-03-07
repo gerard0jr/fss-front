@@ -1,19 +1,32 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Table, TableBody, TableHead, TableCell, TableRow, Paper, 
-    TablePagination, CircularProgress, Grid} from '@material-ui/core'
-import { Edit } from '@material-ui/icons';
+    TablePagination, CircularProgress, Grid, TextField, Tooltip} from '@material-ui/core'
+import { Edit, FilterList } from '@material-ui/icons';
 import ClientDialog from './ClientDialog';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
 import DateFnsUtils from '@date-io/date-fns'
 import esLocale from 'date-fns/locale/es'
 
 const ClientTable = ({rowsPerPage, page, handleChangePage, 
-    handleChangeRowsPerPage, deleteLead, dialog, closeDialog, handleChange, client = {},
-    clearLead, submitLead, openDialog, updateLead, handleDateChange, clients}) => {
-        console.log(clients)
+    handleChangeRowsPerPage, dialog, closeDialog, handleChange, quotation,
+    openDialog, quotations=[], loading, handleQuotation, handleDateChange, updateQuot}) => {
+        const [ arrayFilter, setArrayFilter ] = useState('')
+        let handleArrayFilter = e => setArrayFilter(e.target.value)
   return (<div>
     <Paper id="tablas" style={{width:"100%", margin: "1em auto", padding:"1em"}}>
     <div style={{overflowX: 'auto'}}>
+    <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
+        <Tooltip title="Filtrar lista" placement="bottom">
+            <Grid style={{width:"auto"}} container alignItems="flex-end">
+            <Grid item>
+                <TextField onChange={handleArrayFilter}  id="search-on-table" label="Folio/Empresa" />
+            </Grid>
+                <Grid item>
+                    <FilterList/>
+                </Grid>
+            </Grid>
+        </Tooltip>
+    </div>
         <Table>
             <TableHead>
             <TableRow>
@@ -28,17 +41,17 @@ const ClientTable = ({rowsPerPage, page, handleChangePage,
             </TableRow>
             </TableHead>
             <TableBody>
-            {clients ? clients.map((client, k) => {
+            {quotations.length ? quotations.map((quotation, k) => {
                 return (
                 //el 10 se reemplaza por el número de filas en la tabla para la paginación
                 (k < ((page * 10) + 10) && k >= (page * 10)) ? 
                 <TableRow key={k}>
-                    <TableCell>{client.folio}</TableCell>
+                    <TableCell>Folio</TableCell>
                     <TableCell component="th" scope="row">
-                        {client.clientName}
+                        {quotation.quotBussinessName}
                     </TableCell>
-                    <TableCell style={{width:"200px", padding: "8px"}}>{client.clientAddress}</TableCell>
-                    <TableCell>{client.clientContact}</TableCell>
+                    <TableCell style={{width:"200px", padding: "8px"}}>{quotation.quotBussinessAddr}</TableCell>
+                    <TableCell>{quotation.quotContactName}</TableCell>
                     {/* Inputs de fecha y hora de reunión */}
                     <TableCell style={{width:"200px", padding: "8px"}}> 
                         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={esLocale} views={['year']}>
@@ -47,8 +60,8 @@ const ClientTable = ({rowsPerPage, page, handleChangePage,
                                 okLabel="Guardar"
                                 cancelLabel="Cancelar"
                                 label="Fecha"
-                                value={client.meetingDate}
-                                onChange={handleDateChange(client._id, client, null, 'client')}
+                                value={quotation.quotDate}
+                                onChange={handleDateChange(quotation._id, quotation, null, 'quotation')}
                                 format={'dd/MM/yyyy'}
                             />
                             </Grid>
@@ -61,35 +74,35 @@ const ClientTable = ({rowsPerPage, page, handleChangePage,
                                 okLabel="Guardar"
                                 cancelLabel="Cancelar"
                                 label="Hora"
-                                value={client.meetingDate}
-                                onChange={handleDateChange(client._id, client, null, 'client')}
+                                value={quotation.quotDate}
+                                onChange={handleDateChange(quotation._id, quotation, null, 'quotation')}
                             />
                             </Grid>
                         </MuiPickersUtilsProvider>
                     </TableCell>
-                    <TableCell>{client.reqType}</TableCell>
+                    <TableCell>{quotation.reqType}</TableCell>
                     {/* Botón de editar */}
                     <TableCell>
-                        <Edit onClick={() => openDialog(client, 'clientUpdate')} style={{fontSize: "17px", cursor:"pointer"}}/>
+                        <Edit onClick={() => openDialog(quotation, 'updateQuot')} style={{fontSize: "17px", cursor:"pointer"}}/>
                     </TableCell>
                 </TableRow> : ''
                 )
             }) : 
-                <TableRow>
-                    <TableCell component="th" scope="row">
-                        No hay cotizaciones
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                        <CircularProgress color="secondary" style={{margin:"1em"}}/>
-                    </TableCell>
-                </TableRow>}
+            <TableRow>
+                <TableCell style={{width:"200px", padding: "5px"}} component="th" scope="row">
+                {loading ? 'Cargando...' : 'No hay cotizaciones'}
+                </TableCell>
+                <TableCell component="th" scope="row">
+                    {loading ? <CircularProgress color="secondary" style={{margin:"1em"}}/> : ''}
+                </TableCell>
+            </TableRow>}
             </TableBody>
         </Table>
     </div>
         <TablePagination
           rowsPerPageOptions={[5]}
           component="Table"
-          count={clients ? clients.length : 0}
+          count={quotations ? quotations.length : 0}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{
@@ -107,11 +120,10 @@ const ClientTable = ({rowsPerPage, page, handleChangePage,
         dialog={dialog} 
         closeDialog={closeDialog} 
         handleChange={handleChange} 
-        client={client}
-        deleteLead={deleteLead}
-        clearLead={clearLead}
-        submitLead={submitLead}
-        updateLead={updateLead}/>
+        quotation={quotation}
+        handleQuotation={handleQuotation}
+        updateQuot={updateQuot}
+    />
   </div>)
 }
 

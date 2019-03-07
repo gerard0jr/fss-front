@@ -5,6 +5,7 @@ import { styles } from '../home/styles'
 import { AppBar, Tabs, Tab } from '@material-ui/core';
 import TabContent from './TabContent';
 import { getAll, newLead, removeLead, removeUserLead, actLead } from '../../services/leadsDB'
+import { getQuot, newQuot, actQuot } from '../../services/quotations'
 import Snack from '../snackbar/Snack';
 
 class Sales extends Component {
@@ -12,8 +13,8 @@ class Sales extends Component {
         value: 0,
         lead: {},
         leads: [],
-        client: {},
-        clients: [],
+        quotation: {},
+        quotations: [],
         user: {},
         page: 0,
         rowsPerPage: 10,
@@ -28,7 +29,7 @@ class Sales extends Component {
     componentDidMount = () => {
         const user = JSON.parse(localStorage.getItem('user'));
         if (!user) return this.props.history.push('/login')
-        this.setState({user}, this.getLeads)
+        this.setState({user}, () => {this.getLeads(); this.getQuotations()})
         
     }
     
@@ -44,9 +45,15 @@ class Sales extends Component {
         this.setState({lead})
     }
 
-    handleDateChange = (id, newLead, status = null) => date => {
+    handleDateChange = (id, newLead, status = null, quotation = null) => date => {
         const lead = newLead
         
+        if(quotation !== null){
+            const quotation = newLead
+            quotation['quotDate'] = date
+            return this.setState({quotation}, () => this.updateQuot(id))
+        }
+
         if(status === null){
             lead['meetingDate'] = date
             return this.setState({lead}, () => this.updateLead(id))
@@ -58,6 +65,12 @@ class Sales extends Component {
         }
     }
 
+    handleQuotation = e => {
+        const { quotation } = this.state
+        quotation[e.target.id] = e.target.value
+        this.setState({quotation})
+    }
+
     getLeads = () => {
         const { user } = this.state
         getAll(user._id)
@@ -65,9 +78,15 @@ class Sales extends Component {
             .catch(err => console.log(err))
     }
 
+    getQuotations = () => {
+        const { user } = this.state
+        getQuot(user._id)
+            .then(allQuot => this.setState({quotations: allQuot.data.quotations, loading: false}))
+            .catch(err => console.log(err))
+    }
+
     submitLead = () => {
         const { user, lead, leads = [] } = this.state
-        console.log(leads)
         lead['commentPostedBy'] = user._id
         lead.prefix = 'LD'
         lead.seller = user.name[0].toUpperCase() + user.name[1].toUpperCase()
@@ -81,13 +100,37 @@ class Sales extends Component {
             .catch(err => console.log(err))
     }
 
+    submitQuotation = () => {
+        const {user, quotation, quotations = [] } = this.state
+        quotation['createdBy'] = user._id
+        quotation.quotPrefix = 'COT'
+        quotation.quotSeller = user.name[0].toUpperCase() + user.name[1].toUpperCase()
+        quotation.number = quotations.length > 0 ? quotations[0].number + 1 : 1
+        newQuot(quotation, user._id)
+            .then(userUpdated => {
+                localStorage.setItem('user', JSON.stringify(userUpdated.data))
+                this.getLeads(user._id)
+                this.setState({dialogNew: false, open: true, message:'Cotización creada'}, this.clearLead)
+            })
+            .catch(err => console.log(err))
+    }
+
     updateLead = id => {
         const { lead } = this.state
         actLead(id, lead)
-        .then(newLead => {
-            this.setState({dialog: false, open: true, message:'Actualizado correctamente'})
-        })
-        .catch(err => console.log(err))
+            .then(newLead => {
+                this.setState({dialog: false, open: true, message:'Actualizado correctamente'})
+            })
+            .catch(err => console.log(err))
+    }
+
+    updateQuot = id => {
+        const { quotation } = this.state
+        actQuot(id,quotation)
+            .then(newQuot => {
+                this.setState({dialog: false, open: true, message:'Actualizado correctamente'})
+            })
+            .catch(err => console.log(err))
     }
     
     clearLead = () => {
@@ -115,9 +158,12 @@ class Sales extends Component {
     
     close = () => this.setState({ open: false })
 
-    openDialog = (lead, action) => {
+    openDialog = (item, action) => {
         if(action === 'update'){
-            this.setState({dialog: true, lead})
+            this.setState({dialog: true, lead: item})
+            }
+        else if(action === 'updateQuot'){
+            this.setState({dialog: true, quotation: item})
             }
         else this.setState({dialogNew: true, lead:{}})
     }
@@ -141,10 +187,11 @@ class Sales extends Component {
   render() {
       const { classes } = this.props
       const { value, message, page, rowsPerPage, lead, user, open, leads, dialog,
-            dialogNew, client, clients, loading, drawer } = this.state
+            dialogNew, client, quotations, loading, drawer, quotation } = this.state
       const { handleTabs, handleChange, handleChangePage, handleChangeRowsPerPage, close,
             submitLead, getLeads, clearLead, deleteLead, closeDialog, openDialog,
-            updateLead, handleDateChange, openDrawer, closeDrawer, updateLeadState } = this
+            updateLead, handleDateChange, openDrawer, closeDrawer, updateLeadState, submitQuotation,
+            handleQuotation, updateQuot } = this
     return (
       <div className={classes.salesMenuRoot}>
         <AppBar position="static" color="default">
@@ -182,12 +229,16 @@ class Sales extends Component {
             updateLead={updateLead}
             handleDateChange={handleDateChange}
             client={client}
-            clients={clients}
+            quotations={quotations}
+            quotation={quotation}
             loading={loading}
             openDrawer={openDrawer}
             closeDrawer={closeDrawer}
             drawer={drawer}
             updateLeadState={updateLeadState}
+            submitQuotation={submitQuotation}
+            handleQuotation={handleQuotation}
+            updateQuot={updateQuot}
         />
         <Snack close={close} message={message} open={open}/>
       </div>

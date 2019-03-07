@@ -4,8 +4,8 @@ import ClientProspect from './clientProspect/ClientProspect';
 
 const TabContent = ({value, handleChange, lead, leads, handleChangePage, handleChangeRowsPerPage,
     handleClose, rowsPerPage, page, submitLead, getLeads, clearLead, deleteLead, openDialog, 
-    closeDialog, dialog, updateLead, dialogNew, handleDateChange, client, clients, loading,
-    openDrawer, closeDrawer, drawer, updateLeadState}) => {
+    closeDialog, dialog, updateLead, dialogNew, handleDateChange, quotations, quotation, loading,
+    openDrawer, closeDrawer, drawer, updateLeadState, submitQuotation, handleQuotation, updateQuot}) => {
   return (
     <div className="tab-content">
       {
@@ -40,8 +40,8 @@ const TabContent = ({value, handleChange, lead, leads, handleChangePage, handleC
                         handleChangeRowsPerPage={handleChangeRowsPerPage} 
                         page={page} 
                         rowsPerPage={rowsPerPage}
-                        lead={client}
-                        leads={clients}
+                        quotation={quotation}
+                        quotations={quotations}
                         handleClose={handleClose}
                         submitLead={submitLead}
                         getLeads={getLeads}
@@ -53,6 +53,10 @@ const TabContent = ({value, handleChange, lead, leads, handleChangePage, handleC
                         dialogNew={dialogNew}
                         updateLead={updateLead}
                         handleDateChange={handleDateChange}
+                        loading={loading}
+                        submitQuotation={submitQuotation}
+                        handleQuotation={handleQuotation}
+                        updateQuot={updateQuot}
                       /> : 
         'otro'
       }
