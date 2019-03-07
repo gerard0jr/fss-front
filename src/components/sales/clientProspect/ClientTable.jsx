@@ -16,6 +16,7 @@ const ClientTable = ({rowsPerPage, page, handleChangePage,
     <Paper id="tablas" style={{width:"100%", margin: "1em auto", padding:"1em"}}>
     <div style={{overflowX: 'auto'}}>
     <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
+        <h4 style={{textAlign:"left", marginLeft:"1rem"}}>Cotizaciones</h4>
         <Tooltip title="Filtrar lista" placement="bottom">
             <Grid style={{width:"auto"}} container alignItems="flex-end">
             <Grid item>

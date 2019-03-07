@@ -109,7 +109,7 @@ class Sales extends Component {
         newQuot(quotation, user._id)
             .then(userUpdated => {
                 localStorage.setItem('user', JSON.stringify(userUpdated.data))
-                this.getLeads(user._id)
+                this.getQuotations(user._id)
                 this.setState({dialogNew: false, open: true, message:'Cotización creada'}, this.clearLead)
             })
             .catch(err => console.log(err))

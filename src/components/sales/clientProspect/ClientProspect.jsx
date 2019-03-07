@@ -10,7 +10,6 @@ const ClientProspect = ({quotations, handleChangePage, handleChangeRowsPerPage,
   return (
     <div
     style={{margin:"1em 0"}}>
-        <h4>Cotizaciones</h4>
         <ClientTable
             handleChangePage={handleChangePage} 
             handleChangeRowsPerPage={handleChangeRowsPerPage} 
