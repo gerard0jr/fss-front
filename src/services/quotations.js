@@ -9,7 +9,7 @@ export const getQuot = id =>
         .then(res => res)
         .catch(err => err)
 
-export const newQuot = (data, id) => 
+export const newQuot = (id, data) => 
     axios.post(`${url}/submitQuotation/${id}`, data)
         .then(res => res)
         .catch(err => err)

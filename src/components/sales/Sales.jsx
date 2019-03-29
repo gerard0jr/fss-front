@@ -5,7 +5,6 @@ import { styles } from '../home/styles'
 import { AppBar, Tabs, Tab } from '@material-ui/core';
 import TabContent from './TabContent';
 import { getAll, newLead, removeLead, removeUserLead, actLead } from '../../services/leadsDB'
-import { getQuot, newQuot, actQuot } from '../../services/quotations'
 import Snack from '../snackbar/Snack';
 
 class Sales extends Component {
@@ -29,7 +28,7 @@ class Sales extends Component {
     componentDidMount = () => {
         const user = JSON.parse(localStorage.getItem('user'));
         if (!user) return this.props.history.push('/login')
-        this.setState({user}, () => {this.getLeads(); this.getQuotations()})
+        this.setState({user}, () => this.getLeads())
         
     }
     
@@ -41,7 +40,11 @@ class Sales extends Component {
             lead['origin'] = e.target.value
             return this.setState({lead})
         }
-        lead[e.target.id] = e.target.value
+        if(e.target.name === 'clientName') {
+            lead['clientName'] = e.target.value
+            return this.setState({lead})
+        }
+        lead[e.target.name] = e.target.value
         this.setState({lead})
     }
 
@@ -65,23 +68,10 @@ class Sales extends Component {
         }
     }
 
-    handleQuotation = e => {
-        const { quotation } = this.state
-        quotation[e.target.id] = e.target.value
-        this.setState({quotation})
-    }
-
     getLeads = () => {
         const { user } = this.state
         getAll(user._id)
             .then(userLeads => this.setState({leads: userLeads.data.leads.reverse(), loading: false}))
-            .catch(err => console.log(err))
-    }
-
-    getQuotations = () => {
-        const { user } = this.state
-        getQuot(user._id)
-            .then(allQuot => this.setState({quotations: allQuot.data.quotations, loading: false}))
             .catch(err => console.log(err))
     }
 
@@ -100,34 +90,10 @@ class Sales extends Component {
             .catch(err => console.log(err))
     }
 
-    submitQuotation = () => {
-        const {user, quotation, quotations = [] } = this.state
-        quotation['createdBy'] = user._id
-        quotation.quotPrefix = 'COT'
-        quotation.quotSeller = user.name[0].toUpperCase() + user.name[1].toUpperCase()
-        quotation.number = quotations.length > 0 ? quotations[0].number + 1 : 1
-        newQuot(quotation, user._id)
-            .then(userUpdated => {
-                localStorage.setItem('user', JSON.stringify(userUpdated.data))
-                this.getQuotations(user._id)
-                this.setState({dialogNew: false, open: true, message:'Cotización creada'}, this.clearLead)
-            })
-            .catch(err => console.log(err))
-    }
-
     updateLead = id => {
         const { lead } = this.state
         actLead(id, lead)
             .then(newLead => {
-                this.setState({dialog: false, open: true, message:'Actualizado correctamente'})
-            })
-            .catch(err => console.log(err))
-    }
-
-    updateQuot = id => {
-        const { quotation } = this.state
-        actQuot(id,quotation)
-            .then(newQuot => {
                 this.setState({dialog: false, open: true, message:'Actualizado correctamente'})
             })
             .catch(err => console.log(err))
@@ -190,8 +156,7 @@ class Sales extends Component {
             dialogNew, client, quotations, loading, drawer, quotation } = this.state
       const { handleTabs, handleChange, handleChangePage, handleChangeRowsPerPage, close,
             submitLead, getLeads, clearLead, deleteLead, closeDialog, openDialog,
-            updateLead, handleDateChange, openDrawer, closeDrawer, updateLeadState, submitQuotation,
-            handleQuotation, updateQuot } = this
+            updateLead, handleDateChange, openDrawer, closeDrawer, updateLeadState } = this
     return (
       <div className={classes.salesMenuRoot}>
         <AppBar position="static" color="default">
@@ -202,7 +167,7 @@ class Sales extends Component {
                 textColor="primary"
             >
                 <Tab onClick={getLeads} label="Oportunidad de venta" />
-                <Tab label="Prospectar clientes" />
+                <Tab label="Administrar clientes" />
                 <Tab label="Formalizar cuentas" />
                 <Tab label="Supervisar implementación del servicio" />
                 <Tab label="Quejas/Sugerencias" />
@@ -210,7 +175,7 @@ class Sales extends Component {
         </AppBar>
         <TabContent 
             value={value} 
-            handleChange={ handleChange } 
+            handleChange={handleChange} 
             handleChangePage={handleChangePage} 
             handleChangeRowsPerPage={handleChangeRowsPerPage} 
             page={page} 
@@ -236,9 +201,6 @@ class Sales extends Component {
             closeDrawer={closeDrawer}
             drawer={drawer}
             updateLeadState={updateLeadState}
-            submitQuotation={submitQuotation}
-            handleQuotation={handleQuotation}
-            updateQuot={updateQuot}
         />
         <Snack close={close} message={message} open={open}/>
       </div>

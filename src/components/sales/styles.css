@@ -44,10 +44,6 @@
     text-align: center;
 }
 
-input{
-    text-align: center !important;
-}
-
 .drawer-two-columns{
     display: flex;
     flex-wrap: wrap;

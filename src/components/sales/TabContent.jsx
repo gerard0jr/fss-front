@@ -1,11 +1,11 @@
 import React from 'react'
 import SalesOp from './saleOportunity/SalesOp';
-import ClientProspect from './clientProspect/ClientProspect';
+import Clients from './clients/Clients';
 
 const TabContent = ({value, handleChange, lead, leads, handleChangePage, handleChangeRowsPerPage,
     handleClose, rowsPerPage, page, submitLead, getLeads, clearLead, deleteLead, openDialog, 
     closeDialog, dialog, updateLead, dialogNew, handleDateChange, quotations, quotation, loading,
-    openDrawer, closeDrawer, drawer, updateLeadState, submitQuotation, handleQuotation, updateQuot}) => {
+    openDrawer, closeDrawer, drawer, updateLeadState}) => {
   return (
     <div className="tab-content">
       {
@@ -34,30 +34,7 @@ const TabContent = ({value, handleChange, lead, leads, handleChangePage, handleC
                         drawer={drawer}
                         updateLeadState={updateLeadState}
                       /> :
-        value === 1 ? <ClientProspect
-                        handleChange={handleChange}
-                        handleChangePage={handleChangePage} 
-                        handleChangeRowsPerPage={handleChangeRowsPerPage} 
-                        page={page} 
-                        rowsPerPage={rowsPerPage}
-                        quotation={quotation}
-                        quotations={quotations}
-                        handleClose={handleClose}
-                        submitLead={submitLead}
-                        getLeads={getLeads}
-                        clearLead={clearLead}
-                        deleteLead={deleteLead}
-                        openDialog={openDialog}
-                        closeDialog={closeDialog}
-                        dialog={dialog}
-                        dialogNew={dialogNew}
-                        updateLead={updateLead}
-                        handleDateChange={handleDateChange}
-                        loading={loading}
-                        submitQuotation={submitQuotation}
-                        handleQuotation={handleQuotation}
-                        updateQuot={updateQuot}
-                      /> : 
+        value === 1 ? <Clients/> : 
         'otro'
       }
     </div>

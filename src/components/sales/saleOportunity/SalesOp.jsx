@@ -36,7 +36,7 @@ const SalesOp = ({handleChange, lead, leads, handleChangePage, handleChangeRowsP
         
         <div>
             <Button onClick={() => openDialog({},'new')} variant="contained" color="primary">
-                Nuevo Lead
+                Nuevo Deal
             </Button>
         </div>
 

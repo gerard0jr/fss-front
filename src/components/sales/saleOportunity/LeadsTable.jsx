@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Table, TableBody, TableHead, TableCell, TableRow, Paper, 
     TablePagination, CircularProgress, Grid, FormControl, Select, MenuItem, Fab, TextField, Tooltip } from '@material-ui/core'
 import { Edit, FilterList } from '@material-ui/icons';
@@ -6,18 +6,30 @@ import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pic
 import DateFnsUtils from '@date-io/date-fns'
 import esLocale from 'date-fns/locale/es'
 import LeadDrawer from './LeadDrawer';
+import { getQuot } from '../../../services/quotations'
 
 const LeadsTable = ({leads, rowsPerPage, page, handleChangePage, 
     handleChangeRowsPerPage, deleteLead, dialog, closeDialog, handleChange, lead, 
     openDialog, updateLead, handleDateChange, loading, openDrawer, closeDrawer, 
     drawer, updateLeadState}) => {
+        
         const [ arrayFilter, setArrayFilter ] = useState('')
         let handleArrayFilter = e => setArrayFilter(e.target.value)
+
+        const [quotations, setQuotations ] = useState([])
+
+        let getQuotations = id => {
+            getQuot(id)
+                .then(quotations => setQuotations(quotations.data.quotations))
+                .catch(err => err)
+        }
+
   return (<div>
     <Paper id="tablas" style={{width:"100%", margin: "1em auto", padding:"1em"}}>
     <div style={{overflowX: 'auto'}}>
     <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
-        <h4 style={{textAlign:"left", marginLeft:"1rem"}}>Leads</h4>
+        {/* Título de tabla DEALS */}
+        <h4 style={{textAlign:"left", marginLeft:"1rem"}}>Deals</h4>
         <Tooltip title="Filtrar lista" placement="bottom">
             <Grid style={{width:"auto"}} container alignItems="flex-end">
             <Grid item>
@@ -52,10 +64,10 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                 //el 10 se reemplaza por el número de filas en la tabla para la paginación
                 (k < ((page * 10) + 10) && k >= (page * 10)) ? 
                 <TableRow key={k}>
-                    {/* Detalle */}
+                    {/* Detalle  de cada deal*/}
                     <TableCell style={{width: "40px", padding: "8px", textAlign: "center"}}>
                         <Fab 
-                            onClick={() => openDrawer(lead)} 
+                            onClick={() => {openDrawer(lead); getQuotations(lead._id)}} 
                             variant="extended" 
                             color="primary" 
                             size="small"
@@ -65,7 +77,7 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
                     </TableCell>
                     <TableCell style={{width:"200px", padding: "8px"}}>{`${lead.prefix}-${lead.seller}-${lead.number}`}</TableCell>
                     <TableCell component="th" scope="row">
-                        {lead.bussinessName}
+                        {lead.clientName ? lead.clientName.bussinessName : null}
                     </TableCell>
                     <TableCell>{lead.contactName}</TableCell>
                     <TableCell><a style={{color:"#1976d2"}} href={`tel:+${lead.contactPhone}`}>{lead.contactPhone}</a></TableCell>
@@ -161,6 +173,8 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
             closeDialog={closeDialog}
             openDialog={openDialog}
             updateLeadState={updateLeadState}
+            quotations={quotations}
+            getQuotations={getQuotations}
         />
   </div>)
 }

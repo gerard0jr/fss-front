@@ -7,7 +7,7 @@ import HomeNav from './HomeNav';
 import HomeDrawer from './HomeDrawer';
 import Profile from '../profile/Profile';
 import Sales from '../sales/Sales';
-import { actUser } from '../../services/auth'
+import { actUser, logout } from '../../services/auth'
 import Dashboard from '../dashboard/Dashboard';
 
 class Home extends Component {
@@ -38,12 +38,21 @@ class Home extends Component {
         this.setState({user})
     }
 
+    closeSession = () => 
+      logout()
+      .then(res => {
+          const { history } = this.props
+          localStorage.removeItem('user')
+          return history.push('/login')
+      })
+      .catch(err => err)
+
     close = () => this.setState({open: false})
 
   render() {
     const { open, direction, location, user } = this.state
     const { handleDrawerClose, handleDrawerOpen, handleLocation, 
-            updateUser, toHome } = this
+            updateUser, toHome, closeSession } = this
     const { classes } = this.props
     return (
       <div>
@@ -54,6 +63,8 @@ class Home extends Component {
             toHome={toHome}
             open={open} 
             classes={classes}
+            closeSession={closeSession}
+            handleLocation={handleLocation}
             {...user}/>
         <HomeDrawer 
             handleDrawerClose={handleDrawerClose} 

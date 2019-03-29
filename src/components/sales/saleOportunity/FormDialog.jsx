@@ -1,113 +1,107 @@
-import React from 'react'
-import { TextField, Button, FormControl, InputLabel, Select, MenuItem, 
-    Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core'
+import React, {useState, useEffect} from 'react'
+import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
 import '../styles.css'
+import { allClients } from '../../../services/clients'
 
 const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead, 
     submitLead, updateLead, dialogNew, closeDrawer}) => {
+        
+        const [bussinesses, setBussinesses] = useState([])
+        useEffect(() => {
+            const fetchData = async () => {
+                const result = await allClients()
+                    .then(clients => clients.data.sort((a, b) => a.bussinessName.localeCompare(b.bussinessName)))
+                    .catch(err => err)
+                setBussinesses(result)
+            }
+            fetchData()
+        }, [])
+
   return (
     <Dialog
             open={dialogNew || dialog}
             onClose={closeDialog}
             aria-labelledby="new-form"
         >
-            <DialogTitle>{dialogNew ? 'Nuevo Lead' : `Editar ${lead.bussinessName}`}</DialogTitle>
+            <DialogTitle>{dialogNew ? 'Nuevo Deal' : `Editar deal`}</DialogTitle>
             <DialogContent>
                 {/* FORM */}
                 <form className="sales-oportunity-fields" autoComplete="off">
                     <div>
-                        <TextField
-                            required
-                            className="text-field"
-                            id="bussinessName"
-                            label="Nombre de la empresa"
-                            value={lead.bussinessName}
-                            onChange={handleChange}
-                        />
-                    
-                        <TextField
-                            required
-                            className="text-field"
-                            id="bussinessRole"
-                            label="Giro de la empresa"
-                            value={lead.bussinessRole}
-                            onChange={handleChange}
-                        />
-                
-                        <TextField
-                            required
-                            className="text-field"
-                            id="bussinessAddress"
-                            label="Dirección"
-                            value={lead.bussinessAddress}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div>
-                        <TextField
-                            required
-                            className="text-field"
-                            id="industry"
-                            label="Industria"
-                            value={lead.industry}
-                            onChange={handleChange}
-                        />
-                        
                         <FormControl className="text-field">
-                            <InputLabel shrink htmlFor="origin">Origen</InputLabel>
+                            <InputLabel shrink>Cliente</InputLabel>
+                            {dialogNew ? 
                             <Select
                                 required
-                                value={lead.origin}
                                 onChange={handleChange}
+                                value={lead.clientName}
                                 inputProps={{
-                                name: 'Origen',
-                                id: 'origin',
+                                name: 'clientName',
+                                id: 'clientName',
                                 }}
                             >
                             <MenuItem value="" disabled>
-                                <em>Selecciona  </em>
+                                <em>Clientes</em>
                             </MenuItem>
-                            <MenuItem value={'Nacional'} >Nacional</MenuItem>
-                            <MenuItem value={'Extranjero'} >Extranjero</MenuItem>
-                            </Select>
+                            {bussinesses.length ? 
+                                bussinesses.map((bussiness, k) => 
+                                    <MenuItem 
+                                        key={k} 
+                                        value={bussiness._id}>
+                                        {bussiness.bussinessName}</MenuItem>) :
+                                        <MenuItem>No hay clientes</MenuItem>}
+                            </Select> 
+                            : 
+                            <Select
+                                required
+                                onChange={handleChange}
+                                value={lead.clientName ? lead.clientName._id : ''}
+                                inputProps={{
+                                name: 'clientName',
+                                id: 'clientName',
+                                }}
+                            >
+                            <MenuItem value="" disabled>
+                                <em>Clientes</em>
+                            </MenuItem>
+                            {bussinesses.length ? 
+                                bussinesses.map((bussiness, k) => 
+                                    <MenuItem 
+                                        key={k} 
+                                        value={bussiness._id}>
+                                        {bussiness.bussinessName}</MenuItem>) :
+                                        <MenuItem>No hay clientes</MenuItem>}
+                            </Select>}
                         </FormControl>
-                
-                        <TextField
-                            required
-                            type="number"
-                            className="text-field"
-                            id="bussinessEmployees"
-                            label="No. de empleados"
-                            value={lead.bussinessEmployees}
-                            onChange={handleChange}
-                        />
-                    </div>
-                    <div>
+                        
                         <TextField
                             required
                             className="text-field"
                             id="contactName"
+                            name="contactName"
                             label="Nombre del contacto"
-                            value={lead.contactName}
-                            onChange={handleChange}
+
+                            onBlur={handleChange}
                         />
                 
                         <TextField
                             required
                             className="text-field"
                             id="contactPosition"
+                            name="contactPosition"
                             label="Puesto del contacto"
                             value={lead.contactPosition}
-                            onChange={handleChange}
+                            onBlur={handleChange}
                         />
                     
                         <TextField  
                             required
                             className="text-field"
                             id="contactPhone"
+                            name="contactPhone"
                             label="Teléfono"
                             value={lead.contactPhone}
-                            onChange={handleChange}
+                            onBlur={handleChange}
                         />
                     
                         <TextField
@@ -115,19 +109,22 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                             className="text-field"
                             type="email"
                             id="contactEmail"
+                            name="contactEmail"
                             label="Email"
                             value={lead.contactEmail}
-                            onChange={handleChange}
+                            onBlur={handleChange}
                         />
 
                         <TextField
                             className="text-field"
                             type="text"
                             id="commentText"
+                            name="commentText"
                             label="Comentarios"
                             value={lead.commentText}
-                            onChange={handleChange}
+                            onBlur={handleChange}
                         />
+
                     </div>
                 </form>
             </DialogContent>
@@ -136,7 +133,7 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                 <DialogActions>
                 <Button onClick={closeDialog} >Cancelar</Button>
                 <Button onClick={clearLead} variant="outlined" >Limpiar</Button>
-                <Button onClick={submitLead} color="primary" variant="contained">
+                <Button disabled={!lead.clientName ? true : false} onClick={submitLead} color="primary" variant="contained">
                     Agregar
                 </Button> 
             </DialogActions>: 
