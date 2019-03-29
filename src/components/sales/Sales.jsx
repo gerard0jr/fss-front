@@ -64,7 +64,7 @@ class Sales extends Component {
         
         if(date.target.name === 'status'){
             lead['status'] = date.target.value
-            return this.setState({lead}, () => this.updateLead(id))    
+            return this.setState({lead}, () => {this.updateLead(id); this.getLeads();})    
         }
     }
 
