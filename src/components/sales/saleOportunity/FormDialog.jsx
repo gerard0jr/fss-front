@@ -1,21 +1,9 @@
-import React, {useState, useEffect} from 'react'
-import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
+import React from 'react'
+import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core'
 import '../styles.css'
-import { allClients } from '../../../services/clients'
 
 const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead, 
     submitLead, updateLead, dialogNew, closeDrawer}) => {
-        
-        const [bussinesses, setBussinesses] = useState([])
-        useEffect(() => {
-            const fetchData = async () => {
-                const result = await allClients()
-                    .then(clients => clients.data.sort((a, b) => a.bussinessName.localeCompare(b.bussinessName)))
-                    .catch(err => err)
-                setBussinesses(result)
-            }
-            fetchData()
-        }, [])
 
   return (
     <Dialog
@@ -23,64 +11,18 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
             onClose={closeDialog}
             aria-labelledby="new-form"
         >
-            <DialogTitle>{dialogNew ? 'Nuevo Deal' : `Editar deal`}</DialogTitle>
+            <DialogTitle>{dialogNew ? 'Nuevo Deal' : `Editar deal ${lead.prefix}-${lead.seller}-${lead.number} de ${lead.clientName ? lead.clientName.bussinessName : ''}`}</DialogTitle>
             <DialogContent>
                 {/* FORM */}
                 <form className="sales-oportunity-fields" autoComplete="off">
                     <div>
-                        <FormControl className="text-field">
-                            <InputLabel shrink>Cliente</InputLabel>
-                            {dialogNew ? 
-                            <Select
-                                required
-                                onChange={handleChange}
-                                value={lead.clientName}
-                                inputProps={{
-                                name: 'clientName',
-                                id: 'clientName',
-                                }}
-                            >
-                            <MenuItem value="" disabled>
-                                <em>Clientes</em>
-                            </MenuItem>
-                            {bussinesses.length ? 
-                                bussinesses.map((bussiness, k) => 
-                                    <MenuItem 
-                                        key={k} 
-                                        value={bussiness._id}>
-                                        {bussiness.bussinessName}</MenuItem>) :
-                                        <MenuItem>No hay clientes</MenuItem>}
-                            </Select> 
-                            : 
-                            <Select
-                                required
-                                onChange={handleChange}
-                                value={lead.clientName ? lead.clientName._id : ''}
-                                inputProps={{
-                                name: 'clientName',
-                                id: 'clientName',
-                                }}
-                            >
-                            <MenuItem value="" disabled>
-                                <em>Clientes</em>
-                            </MenuItem>
-                            {bussinesses.length ? 
-                                bussinesses.map((bussiness, k) => 
-                                    <MenuItem 
-                                        key={k} 
-                                        value={bussiness._id}>
-                                        {bussiness.bussinessName}</MenuItem>) :
-                                        <MenuItem>No hay clientes</MenuItem>}
-                            </Select>}
-                        </FormControl>
-                        
                         <TextField
                             required
                             className="text-field"
                             id="contactName"
                             name="contactName"
                             label="Nombre del contacto"
-
+                            value={lead.contactName}
                             onBlur={handleChange}
                         />
                 
