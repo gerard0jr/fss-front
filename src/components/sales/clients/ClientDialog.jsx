@@ -1,8 +1,12 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
 import '../styles.css'
 
 const ClientDialog = ({ dialog, closeDialog, handleChange, dialogNew, client={}, submitClient, deleteClient }) => {
+    
+    const [ deleteDialog, setDeleteDialog ] = useState(false)
+    let toggleDeleteDialog = () => setDeleteDialog(!deleteDialog)
+
   return (
     <Dialog
             open={dialogNew || dialog}
@@ -91,13 +95,28 @@ const ClientDialog = ({ dialog, closeDialog, handleChange, dialogNew, client={},
             </DialogActions>: 
             <DialogActions>
                 <Button onClick={closeDialog} >Cancelar</Button>
-                <Button onClick={() => deleteClient(client._id)} color="secondary" variant="contained" >Borrar</Button>
+                <Button onClick={() => toggleDeleteDialog(client._id)} color="secondary" variant="contained" >Borrar</Button>
                 <Button onClick={() => submitClient('update')} color="primary" variant="contained">
                     Actualizar
                 </Button> 
             </DialogActions>}
                 
-            
+            <Dialog
+            open={deleteDialog}
+            onClose={toggleDeleteDialog}
+            >
+                <DialogTitle>
+                    Eliminar {`${client.bussinessName}`}
+                </DialogTitle>
+                <DialogActions>
+                    <Button onClick={toggleDeleteDialog} color="primary">
+                        Cancelar
+                    </Button>
+                    <Button onClick={() => {deleteClient(client._id); toggleDeleteDialog();}} color="secondary" autoFocus>
+                        Eliminar
+                    </Button>
+                </DialogActions>
+             </Dialog>
         </Dialog>
   )
 }

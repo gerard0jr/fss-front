@@ -200,7 +200,7 @@ const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange, 
             onClose={toggleDialog}
         >
             <DialogTitle>
-                Eliminar {lead.bussinessName}
+                Eliminar {`${lead.prefix}-${lead.seller}-${lead.number}`}
             </DialogTitle>
             <DialogActions>
                 <Button onClick={toggleDialog} color="primary">

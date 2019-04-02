@@ -64,7 +64,7 @@ class Sales extends Component {
         
         if(date.target.name === 'status'){
             lead['status'] = date.target.value
-            return this.setState({lead}, () => {this.updateLead(id); this.getLeads();})    
+            return this.setState({lead}, () => {this.updateLead(id);})    
         }
     }
 
@@ -95,6 +95,7 @@ class Sales extends Component {
         actLead(id, lead)
             .then(newLead => {
                 this.setState({dialog: false, open: true, message:'Actualizado correctamente'})
+                this.getLeads()
             })
             .catch(err => console.log(err))
     }
@@ -140,7 +141,7 @@ class Sales extends Component {
 
     openDrawer = lead => this.setState({drawer:true, lead})
 
-    closeDrawer = () => this.setState({drawer: false, lead: {}})
+    closeDrawer = () => this.setState({drawer: false, lead: {}}, () => this.getLeads())
 
     handleChangePage = (event, page) => this.setState({ page })
 

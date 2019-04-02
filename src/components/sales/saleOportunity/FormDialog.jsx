@@ -1,9 +1,21 @@
-import React from 'react'
-import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core'
+import React, {useState, useEffect} from 'react'
+import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core'
 import '../styles.css'
+import { allClients } from '../../../services/clients'
 
 const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead, 
     submitLead, updateLead, dialogNew, closeDrawer}) => {
+
+        const [bussinesses, setBussinesses] = useState([])	
+        useEffect(() => {	
+            const fetchData = async () => {	
+                const result = await allClients()	
+                    .then(clients => clients.data.sort((a, b) => a.bussinessName.localeCompare(b.bussinessName)))	
+                    .catch(err => err)	
+                setBussinesses(result)	
+            }	
+            fetchData()	
+        }, [])
 
   return (
     <Dialog
@@ -16,13 +28,40 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                 {/* FORM */}
                 <form className="sales-oportunity-fields" autoComplete="off">
                     <div>
+                        {dialogNew ?
+                        <FormControl className="text-field">	
+                            <InputLabel shrink>Cliente</InputLabel>	
+                            <Select	
+                                required	
+                                onChange={handleChange}	
+                                value={lead.clientName}	
+                                inputProps={{	
+                                name: 'clientName',	
+                                id: 'clientName',	
+                                }}	
+                            >	
+                            <MenuItem value="" disabled>	
+                                <em>Clientes</em>	
+                            </MenuItem>	
+                            {bussinesses.length ? 	
+                                bussinesses.filter(buss => buss.active === true).map((bussiness, k) => 	
+                                    <MenuItem 	
+                                        key={k} 	
+                                        value={bussiness._id}>	
+                                        {bussiness.bussinessName}</MenuItem>) :	
+                                        <MenuItem>No hay clientes</MenuItem>}	
+                            </Select> 	
+                        </FormControl>
+                            : 	
+                           ''}	
+
                         <TextField
                             required
                             className="text-field"
                             id="contactName"
                             name="contactName"
                             label="Nombre del contacto"
-                            value={lead.contactName}
+                            defaultValue={lead.contactName}
                             onBlur={handleChange}
                         />
                 
@@ -32,7 +71,7 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                             id="contactPosition"
                             name="contactPosition"
                             label="Puesto del contacto"
-                            value={lead.contactPosition}
+                            defaultValue={lead.contactPosition}
                             onBlur={handleChange}
                         />
                     
@@ -42,7 +81,7 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                             id="contactPhone"
                             name="contactPhone"
                             label="Teléfono"
-                            value={lead.contactPhone}
+                            defaultValue={lead.contactPhone}
                             onBlur={handleChange}
                         />
                     
@@ -53,7 +92,7 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                             id="contactEmail"
                             name="contactEmail"
                             label="Email"
-                            value={lead.contactEmail}
+                            defaultValue={lead.contactEmail}
                             onBlur={handleChange}
                         />
 
@@ -63,7 +102,7 @@ const FormDialog = ({dialog, closeDialog, handleChange, lead, clearLead,
                             id="commentText"
                             name="commentText"
                             label="Comentarios"
-                            value={lead.commentText}
+                            defaultValue={lead.commentText}
                             onBlur={handleChange}
                         />
 
