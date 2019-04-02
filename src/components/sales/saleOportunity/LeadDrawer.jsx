@@ -1,48 +1,73 @@
 import React, { useState } from 'react'
-import { Drawer, Divider, Button, Dialog, DialogTitle, DialogActions, FormControl, MenuItem, Select, DialogContentText, DialogContent, TextField, InputLabel, Input, InputAdornment, Table, Paper, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import { Drawer, Divider, Button, Dialog, DialogTitle, DialogActions, FormControl, MenuItem, Select, DialogContent, TextField, InputLabel, Input, InputAdornment, Table, Paper, TableHead, TableRow, TableCell, TableBody, IconButton, Tooltip } from '@material-ui/core';
+
 import '../styles.css'
 import FormDialog from './FormDialog';
 import FileUpload from './FileUpload';
-import { newQuot } from '../../../services/quotations'
+import { newQuot, delQuot, actQuot } from '../../../services/quotations'
 import Snack from '../../snackbar/Snack';
 // Librerías para mostrar fecha y cantidades de dinero
 import Currency from 'react-currency-formatter';
 import moment from 'moment'
+import { Delete, Edit } from '@material-ui/icons';
 require('moment/locale/es')
 
 const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange, quotations, getQuotations,
     handleDateChange, loading, updateLead, dialog, closeDialog, openDialog, updateLeadState}) => {
-    
+    // Diálogo para confirmar eliminación de deal
     const [ open, setOpen] = useState(false)
     let toggleDialog = () => setOpen(!open)
 
+    // Diálogo para crear nuevas cotizaciones
     const [ openQuot, setOpenQuot ] = useState(false)
     let toggleQuotation = () => setOpenQuot(!openQuot)
-
-    const [ quotation, setQuotation ] = useState({})
     
+    // Diálogo para editar cotizaciones
+    const [ editQuot, setEditQuot ] = useState(false)
+    let toggleEditQuotation = quot => {
+        if(editQuot) return setEditQuot(!editQuot)
+        setEditQuot(!editQuot)
+        setQuotation(quot);
+    }
+
+    // Manejo de cotiaciones
+    const [ quotation, setQuotation ] = useState({})
     let handleQuotation = e => {
         quotation[e.target.name] = e.target.value
         setQuotation(quotation)
     }
-    
-    let submitQuotation = (id) => {
+
+    let submitQuotation = id => 
         newQuot(id,quotation)
         .then(res => {
             openSnack('Cotización creada')
             getQuotations(id)
         })  
         .catch(err => err)
-    }
 
+    let delQuotation = (id, leadID) => 
+        delQuot(id)
+            .then(res => {
+                openSnack('Cotización eliminada')
+                getQuotations(leadID)
+            })  
+            .catch(err => err)
+
+    let updateQuotation = (id, data, leadID) => 
+        actQuot(id,data)
+            .then(res => {
+                openSnack('Cotización actualizada')
+                getQuotations(leadID)
+            })  
+            .catch(err => err)
+
+    // Snackbar con mensaje de confirmación de acciones
     const [snackbar, setSnackbar ] = useState(false)
     const [message, setMessage ] = useState('')
-
     let openSnack = message => {
         setMessage(message)
         setSnackbar(true)
     }
-
     let closeSnack = () => setSnackbar(false)
 
   return (
@@ -103,7 +128,7 @@ const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange, 
                 
                 {/* Cotizaciones */}
                 <p className="small-font">Cotizaciones</p>
-                <Paper>
+                <Paper style={{maxWidth:"800px"}}>
                     <Table>
                     <TableHead>
                     <TableRow>
@@ -113,10 +138,12 @@ const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange, 
                         <TableCell style={{width:"200px", padding: "8px"}} >Factura</TableCell>
                         <TableCell>Descripción</TableCell>
                         <TableCell>Monto mensual</TableCell>
+                        <TableCell style={{width:"200px", padding: "0px"}}>Acciones</TableCell>
+                        {/* <TableCell style={{width:"200px", padding: "0px"}}></TableCell> */}
                     </TableRow>
                     </TableHead>
                     <TableBody>
-                    {quotations.length ? quotations.map(quot =>
+                    {quotations.length ? quotations.filter(quot => quot.active === true).map(quot =>
                             <TableRow key={quot._id}>
                                 <TableCell component="th" scope="row">
                                     {quot.quotPrefix}
@@ -126,6 +153,18 @@ const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange, 
                                 <TableCell style={{width:"200px", padding: "8px"}} >{quot.quotBill ? quot.quotBill : 'Sin factura'}</TableCell>
                                 <TableCell>{quot.quotDescription ? quot.quotDescription : 'Sin descripción'}</TableCell>
                                 <TableCell>{quot.quotAmount ? <Currency quantity={quot.quotAmount}/> : '$0'}</TableCell>
+                                <TableCell style={{width:"200px", padding: "0px"}}>
+                                <Tooltip title="Editar" placement="right">
+                                    <IconButton onClick={() => toggleEditQuotation(quot)} aria-label="Delete">
+                                        <Edit fontSize="small" />
+                                    </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Eliminar" placement="right">
+                                    <IconButton onClick={() => {delQuotation(quot._id, lead._id); getQuotations()}} aria-label="Delete">
+                                        <Delete fontSize="small" />
+                                    </IconButton>
+                                </Tooltip>
+                                </TableCell>
                             </TableRow>
                         ) : 
                         <TableRow>
@@ -238,6 +277,66 @@ const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange, 
                 </Button>
                 <Button onClick={() => {toggleQuotation(); submitQuotation(lead._id);}} color="primary" autoFocus>
                     Crear
+                </Button>
+            </DialogActions>
+        </Dialog>
+
+        {/* Diálogo para editar cotiaciones */}
+        <Dialog
+            open={editQuot}
+            onClose={toggleEditQuotation}
+        >
+            <DialogTitle>
+                Editar cotización {quotation.quotPrefix ? quotation.quotPrefix : ''} <small style={{color:"rgb(115, 115, 115)"}}>({lead.clientName ? lead.clientName.bussinessName : ''})</small>
+            </DialogTitle>
+            <DialogContent> 
+                <TextField 
+                    autoFocus
+                    margin="dense"
+                    name="quotPO"
+                    label="Orden de compra"
+                    type="number"
+                    defaultValue={quotation.quotPO}
+                    onChange={handleQuotation}
+                    fullWidth
+                />
+                <TextField 
+                    autoFocus
+                    margin="dense"
+                    name="quotBill"
+                    label="Factura"
+                    type="number"
+                    defaultValue={quotation.quotBill}
+                    onChange={handleQuotation}
+                    fullWidth
+                />
+                <TextField 
+                    autoFocus
+                    margin="dense"
+                    name="quotDescription"
+                    label="Descripción"
+                    type="text"
+                    defaultValue={quotation.quotDescription}
+                    onChange={handleQuotation}
+                    fullWidth
+                />
+                <FormControl style={{marginTop:"1rem"}}>
+                    <InputLabel htmlFor="adornment-amount">Monto mensual</InputLabel>
+                    <Input
+                    type="number"
+                    name="quotAmount"
+                    defaultValue={quotation.quotAmount}
+                    onChange={handleQuotation}
+                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                    />
+                </FormControl>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={toggleEditQuotation} color="primary">
+                    Cancelar
+                </Button>
+                <Button onClick={() => {updateQuotation(quotation._id, quotation, lead._id);toggleEditQuotation();}} color="primary" autoFocus>
+                    Actualizar
                 </Button>
             </DialogActions>
         </Dialog>

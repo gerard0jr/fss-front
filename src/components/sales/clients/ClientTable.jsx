@@ -81,7 +81,7 @@ const ClientTable = ({rowsPerPage, page, handleChangePage, handleChangeRowsPerPa
         <TablePagination
           rowsPerPageOptions={[5]}
           component="Table"
-          count={clients ? clients.length : 0}
+          count={clients ? clients.filter(client => client.active === true).length : 0}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{
