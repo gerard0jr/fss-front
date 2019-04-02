@@ -57,9 +57,9 @@ const LeadsTable = ({leads, rowsPerPage, page, handleChangePage,
             </TableHead>
             <TableBody>
             {leads.length ? 
-            leads.filter(lead =>
+            leads.filter(lead => lead.clientName ? 
                 lead.prefix.concat('-',lead.seller,'-',lead.number).includes(arrayFilter.toUpperCase()) || 
-                lead.bussinessName.toLowerCase().includes(arrayFilter.toLowerCase()) ).map((lead, k) => {
+                lead.clientName.bussinessName.toLowerCase().includes(arrayFilter.toLowerCase()) : []).map((lead, k) => {
                 return (
                 //el 10 se reemplaza por el número de filas en la tabla para la paginación
                 (k < ((page * 10) + 10) && k >= (page * 10)) ? 
