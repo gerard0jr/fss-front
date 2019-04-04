@@ -18,7 +18,7 @@ const ClientTable = ({rowsPerPage, page, handleChangePage, handleChangeRowsPerPa
         <Tooltip title="Filtrar lista" placement="bottom">
             <Grid style={{width:"auto"}} container alignItems="flex-end">
             <Grid item>
-                <TextField onChange={handleArrayFilter} value={arrayFilter} id="search-on-table" label="Folio/Empresa" />
+                <TextField onChange={handleArrayFilter} value={arrayFilter} id="search-on-table" label="ID/Nombre" />
             </Grid>
                 <Grid item>
                     <FilterList/>
@@ -40,7 +40,7 @@ const ClientTable = ({rowsPerPage, page, handleChangePage, handleChangeRowsPerPa
             </TableRow>
             </TableHead>
             <TableBody>
-            {clients.length ? clients.map((client, k) => {
+            {clients.length ? clients.filter(client => client.bussinessName.toLowerCase().includes(arrayFilter.toLowerCase()) ).map((client, k) => {
                 return (
                 //el 10 se reemplaza por el número de filas en la tabla para la paginación
                 (k < ((page * 10) + 10) && k >= (page * 10)) && client.active ? 

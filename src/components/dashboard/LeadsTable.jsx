@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Table, TableBody, TableHead, TableCell, TableRow,
          TablePagination, CircularProgress, Tooltip, Grid, TextField } from '@material-ui/core'
 import './styles.css'
@@ -8,13 +8,9 @@ require('moment/locale/es')
 
 const LeadsTable = ({leads, page, rowsPerPage, handleChangePage, loading, orderById}) => {
 
-    let [leadsMutable, setLeads] = useState([])
     const [ arrayFilter, setArrayFilter ] = useState('')
     let handleArrayFilter = e => setArrayFilter(e.target.value)
     
-    useEffect(() => {
-        setLeads(leads)
-      })
 
   return (
     <div style={{marginTop: "1em"}}>
@@ -40,9 +36,9 @@ const LeadsTable = ({leads, page, rowsPerPage, handleChangePage, loading, orderB
             </TableRow>
             </TableHead>
             <TableBody>
-            {leadsMutable.length ? leadsMutable.filter(lead =>
+            {leads.length ? leads.filter(lead => lead.clientName ?
                 lead.prefix.concat('-',lead.seller,'-',lead.number).includes(arrayFilter.toUpperCase()) || 
-                lead.bussinessName.toLowerCase().includes(arrayFilter.toLowerCase()) ).map((lead, k) => {
+                lead.clientName.bussinessName.toLowerCase().includes(arrayFilter.toLowerCase()) : [] ).map((lead, k) => {
                 return (
                 //el 5 se reemplaza por el número de filas en la tabla para la paginación
                 (k < ((page * 5) + 5) && k >= (page * 5)) ? 
@@ -50,7 +46,7 @@ const LeadsTable = ({leads, page, rowsPerPage, handleChangePage, loading, orderB
                     {/* Detalle */}
                     <TableCell>{`${lead.prefix}-${lead.seller}-${lead.number}`}</TableCell>
                     <TableCell>
-                        {lead.bussinessName}
+                        {lead.clientName ? lead.clientName.bussinessName : null}
                     </TableCell>
                     <TableCell>
                         {lead.status}

@@ -41,7 +41,7 @@ export default class Dashboard extends Component {
     getLeads = () => {
         const { user } = this.state
         getAll(user._id)
-            .then(userLeads => this.setState({leads: userLeads.data.leads, loading: false}, this.getSummaryData))
+            .then(userLeads => this.setState({leads: userLeads.data.leads.reverse(), loading: false}, this.getSummaryData))
             .catch(err => console.log(err))
     }
 
