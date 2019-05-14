@@ -30,20 +30,22 @@ const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange, 
         setQuotation(quot);
     }
 
-    // Manejo de cotiaciones
+    // Manejo de cotizaciones
     const [ quotation, setQuotation ] = useState({})
     let handleQuotation = e => {
         quotation[e.target.name] = e.target.value
         setQuotation(quotation)
     }
 
-    let submitQuotation = id => 
+    let submitQuotation = id => { 
+        quotation.quotCounter = quotations.length ? quotations[quotations.length - 1].quotCounter + 1 : 1
         newQuot(id,quotation)
         .then(res => {
             openSnack('Cotización creada')
             getQuotations(id)
         })  
         .catch(err => err)
+    }
 
     let delQuotation = (id, leadID) => 
         delQuot(id)
@@ -146,7 +148,7 @@ const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange, 
                     {quotations.length ? quotations.filter(quot => quot.active === true).map(quot =>
                             <TableRow key={quot._id}>
                                 <TableCell component="th" scope="row">
-                                    {quot.quotPrefix}
+                                    {lead.clientName ? quot.quotPrefix+ "-" +lead.clientName.bussinessID+ "-" + quot.quotCounter : ''}
                                 </TableCell>
                                 <TableCell style={{width:"200px", padding: "8px"}} >{moment(quot.createdAt).format("d/MMMM/Y")}</TableCell>
                                 <TableCell style={{width:"200px", padding: "8px"}} >{quot.quotPO ? quot.quotPO : 'Sin orden de compra'}</TableCell>
@@ -230,16 +232,6 @@ const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange, 
                 Nueva cotización para {`${lead.prefix}-${lead.seller}-${lead.number}`} <small style={{color:"rgb(115, 115, 115)"}}>({lead.clientName ? lead.clientName.bussinessName : ''})</small>
             </DialogTitle>
             <DialogContent> 
-                <TextField 
-                    autoFocus
-                    margin="dense"
-                    id="quotPO"
-                    name="quotPO"
-                    label="Orden de compra"
-                    type="number"
-                    onChange={handleQuotation}
-                    fullWidth
-                />
                 <TextField 
                     autoFocus
                     margin="dense"

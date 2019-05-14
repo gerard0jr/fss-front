@@ -78,7 +78,7 @@ class Sales extends Component {
     submitLead = () => {
         const { user, lead, leads = [] } = this.state
         lead['commentPostedBy'] = user._id
-        lead.prefix = 'LD'
+        lead.prefix = 'DL'
         lead.seller = user.name[0].toUpperCase() + user.name[1].toUpperCase()
         lead.number = leads.length > 0 ? leads[0].number + 1 : 1
         newLead(user._id, lead)
@@ -169,9 +169,7 @@ class Sales extends Component {
             >
                 <Tab onClick={getLeads} label="Oportunidad de venta" />
                 <Tab label="Administrar clientes" />
-                <Tab label="Formalizar cuentas" />
-                <Tab label="Supervisar implementación del servicio" />
-                <Tab label="Quejas/Sugerencias" />
+                
             </Tabs>
         </AppBar>
         <TabContent 

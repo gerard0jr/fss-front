@@ -29,8 +29,8 @@ const ClientTable = ({rowsPerPage, page, handleChangePage, handleChangeRowsPerPa
         <Table>
             <TableHead>
             <TableRow>
-                <TableCell style={{width:"40px", padding: "8px"}}>Ver/Editar</TableCell>
-                <TableCell>ID</TableCell>
+                <TableCell style={{width:"40px", padding: "8px"}}>Editar</TableCell>
+                <TableCell style={{width:"40px", padding: "8px"}}>ID</TableCell>
                 <TableCell>Nombre</TableCell>
                 <TableCell>Dirección</TableCell>
                 <TableCell>Giro</TableCell>
@@ -55,7 +55,7 @@ const ClientTable = ({rowsPerPage, page, handleChangePage, handleChangeRowsPerPa
                             <Edit fontSize="small" />
                         </Fab>
                     </TableCell>
-                    <TableCell>ID</TableCell>
+                    <TableCell style={{width:"50px", padding: "8px"}}>{client.bussinessID}</TableCell>
                     <TableCell component="th" scope="row">
                         {client.bussinessName}
                     </TableCell>

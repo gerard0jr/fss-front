@@ -26,6 +26,15 @@ const ClientDialog = ({ dialog, closeDialog, handleChange, dialogNew, client={},
                             value={client.bussinessName}
                             onChange={handleChange}
                         />
+
+                        <TextField
+                            required
+                            className="text-field"
+                            id="bussinessID"
+                            label="Abreviación"
+                            value={client.bussinessID}
+                            onChange={handleChange}
+                        />
                 
                         <TextField
                             required
