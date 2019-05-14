@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // const url = 'http://localhost:3000/quotations'
 // const url = 'https://crm-fss.herokuapp.com/quotations'
-const url = 'https://3.14.70.148/quotations'
+const url = 'http://3.14.70.148/quotations'
 
 
 export const getQuot = id =>
