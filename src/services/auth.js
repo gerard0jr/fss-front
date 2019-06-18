@@ -1,7 +1,7 @@
 import axios from 'axios'
 // const url = 'http://localhost:3000/auth'
-// const url = 'https://crm-fss.herokuapp.com/auth'
-const url = 'http://3.14.70.148/auth'
+const url = 'https://crm-fss.herokuapp.com/auth'
+// const url = 'http://3.14.70.148/auth'
 
 export const signup = user => 
     axios.post(`${url}/signup`, user, {})

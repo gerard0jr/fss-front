@@ -1,7 +1,7 @@
 import axios from 'axios'
 // const url = 'http://localhost:3000/leads'
-// const url = 'https://crm-fss.herokuapp.com/leads'
-const url = 'http://3.14.70.148/leads'
+const url = 'https://crm-fss.herokuapp.com/leads'
+// const url = 'http://3.14.70.148/leads'
 
 export const getAll = userId => 
     axios.get(`${url}/getAll/${userId}`)
