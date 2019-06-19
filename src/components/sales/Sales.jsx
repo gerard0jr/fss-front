@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import { withRouter } from 'react-router-dom'
 import { styles } from '../home/styles'
 import { AppBar, Tabs, Tab } from '@material-ui/core';
 import TabContent from './TabContent';
@@ -211,4 +212,4 @@ Sales.propTypes = {
     classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(Sales)
+export default withRouter(withStyles(styles)(Sales))

@@ -7,8 +7,8 @@ const DashboardPieChart = ({propuesta, negociacion, confirmacion, perdida, ganad
   return (
     <div>
       <PieChart 
-        data={[["Propuesta", propuesta], ["Negociación", negociacion], ["Confirmación de pedido (Ganada)", confirmacion], ["Perdida", perdida], ["Primer cobro", ganada]]} 
-        messages={{empty: "No hay datos"}}
+        data={{"Propuesta":propuesta, "Negociación":negociacion, "Confirmación de pedido (Ganada)":confirmacion, "Perdida":perdida, "Primer cobro":ganada}}
+        messages={{empty: "No data"}}
       />
     </div>
   )

@@ -11,7 +11,6 @@ const LeadsTable = ({leads, page, rowsPerPage, handleChangePage, loading, orderB
     const [ arrayFilter, setArrayFilter ] = useState('')
     let handleArrayFilter = e => setArrayFilter(e.target.value)
     
-
   return (
     <div style={{marginTop: "1em"}}>
         <div style={{display:"flex", justifyContent:"flex-end", alignItems:"center"}}>
@@ -54,14 +53,14 @@ const LeadsTable = ({leads, page, rowsPerPage, handleChangePage, loading, orderB
                     {/* Fecha y hora de reunión */}
                     <Tooltip disableFocusListener title={moment(lead.meetingDate).format("d/MMMM/Y h:m a")} placement="right">
                         <TableCell> 
-                            {moment(lead.meetingDate).fromNow()}
+                            {lead.meetingDate ? moment(lead.meetingDate).fromNow() : 'No agendada'}
                         </TableCell>
                     </Tooltip>
                 </TableRow> : ''
                 );
             }) : <TableRow>
                     <TableCell style={{width:"200px", padding: "5px"}} component="th" scope="row">
-                       {loading ? 'Cargando...' : 'No hay leads'}
+                       {loading ? 'Cargando...' : 'No hay deals'}
                     </TableCell>
                     <TableCell component="th" scope="row">
                         {loading ? <CircularProgress color="secondary" style={{margin:"1em"}}/> : ''}

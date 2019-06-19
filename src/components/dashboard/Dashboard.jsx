@@ -5,6 +5,7 @@ import { getAll } from '../../services/leadsDB'
 import { getSellers } from '../../services/generalConsults'
 import Employees from './Employees';
 import { Divider } from '@material-ui/core';
+import { Redirect } from 'react-router-dom' 
 
 export default class Dashboard extends Component {
     
@@ -20,7 +21,7 @@ export default class Dashboard extends Component {
     
     componentDidMount = () => {
         const user = JSON.parse(localStorage.getItem('user'));
-        if (!user) return this.props.history.push('/login')
+        if (!user) return <Redirect to='/login' />
         this.setState({user}, () => {this.getLeads(); this.getEmployees()})
     }
 
@@ -73,8 +74,6 @@ export default class Dashboard extends Component {
                 orderById={orderById}
                 summaryData={summaryData}
             />
-            <Divider style={{marginTop:"1rem"}}/>
-            <small>Administración</small>
             <Employees 
                 sellers={sellers}
             />

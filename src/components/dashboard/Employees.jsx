@@ -13,7 +13,7 @@ const Employees = ({sellers}) => {
                     <Avatar alt="profile-mini-pic" src={seller.photoURL}/>
                     <ListItemText 
                         primary={seller.name}
-                        secondary={`Leads:${seller.leads.length} , Cotizaciones: ${seller.leads.length ? seller.leads.reduce((acc,lead)=> acc + lead.quotations.length, 0) : 0}`} 
+                        secondary={`Deals:${seller.leads.length} , Cotizaciones: ${seller.leads.length ? seller.leads.reduce((acc,lead)=> acc + lead.quotations.length, 0) : 0}`} 
                     />
                 </ListItem>) : <div className="employees-detail">No hay vendedores</div>}
         </List>
