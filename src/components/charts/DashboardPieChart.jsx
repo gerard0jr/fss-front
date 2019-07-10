@@ -5,12 +5,7 @@ ReactChartkick.addAdapter(Chart)
 
 const DashboardPieChart = ({propuesta, negociacion, confirmacion, perdida, ganada}) => {
   return (
-    <div>
-      <PieChart 
-        data={{"Propuesta":propuesta, "Negociación":negociacion, "Confirmación de pedido (Ganada)":confirmacion, "Perdida":perdida, "Primer cobro":ganada}}
-        messages={{empty: "No data"}}
-      />
-    </div>
+    <PieChart data={{"Propuesta":propuesta, "Negociación":negociacion, "Confirmación de pedido (Ganada)":confirmacion, "Perdida":perdida, "Primer cobro":ganada}}/> 
   )
 }
 

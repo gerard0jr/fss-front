@@ -1,6 +1,8 @@
 import React from 'react'
 import SalesOp from './saleOportunity/SalesOp';
 import Clients from './clients/Clients';
+import Orders from './orders/Orders';
+import Bills from './bills/Bills';
 
 const TabContent = ({value, handleChange, lead, leads, handleChangePage, handleChangeRowsPerPage,
     handleClose, rowsPerPage, page, submitLead, getLeads, clearLead, deleteLead, openDialog, 
@@ -34,7 +36,9 @@ const TabContent = ({value, handleChange, lead, leads, handleChangePage, handleC
                         drawer={drawer}
                         updateLeadState={updateLeadState}
                       /> :
-        value === 1 ? <Clients/> : 
+        value === 1 ? <Orders/> : 
+        value === 2 ? <Bills/> : 
+        value === 3 ? <Clients/> : 
         'otro'
       }
     </div>

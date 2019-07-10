@@ -136,8 +136,6 @@ const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange, 
                     <TableRow>
                         <TableCell>ID</TableCell>
                         <TableCell style={{width:"200px", padding: "8px"}} >Fecha</TableCell>
-                        <TableCell style={{width:"200px", padding: "8px"}} >PO</TableCell>
-                        <TableCell style={{width:"200px", padding: "8px"}} >Factura</TableCell>
                         <TableCell>Descripción</TableCell>
                         <TableCell>Monto mensual</TableCell>
                         <TableCell style={{width:"200px", padding: "0px"}}>Acciones</TableCell>
@@ -151,8 +149,6 @@ const LeadDrawer = ({drawer, closeDrawer, leads,lead, deleteLead, handleChange, 
                                     {lead.clientName ? quot.quotPrefix+ "-" +lead.clientName.bussinessID+ "-" + quot.quotCounter : ''}
                                 </TableCell>
                                 <TableCell style={{width:"200px", padding: "8px"}} >{moment(quot.createdAt).format("d/MMMM/Y")}</TableCell>
-                                <TableCell style={{width:"200px", padding: "8px"}} >{quot.quotPO ? quot.quotPO : 'Sin orden de compra'}</TableCell>
-                                <TableCell style={{width:"200px", padding: "8px"}} >{quot.quotBill ? quot.quotBill : 'Sin factura'}</TableCell>
                                 <TableCell>{quot.quotDescription ? quot.quotDescription : 'Sin descripción'}</TableCell>
                                 <TableCell>{quot.quotAmount ? <Currency quantity={quot.quotAmount}/> : '$0'}</TableCell>
                                 <TableCell style={{width:"200px", padding: "0px"}}>

@@ -47,6 +47,7 @@ class Sales extends Component {
         }
         lead[e.target.name] = e.target.value
         this.setState({lead})
+        console.log(lead)
     }
 
     handleDateChange = (id, newLead, status = null, quotation = null) => date => {
@@ -169,6 +170,8 @@ class Sales extends Component {
                 textColor="primary"
             >
                 <Tab onClick={getLeads} label="Oportunidad de venta" />
+                <Tab label="Órdenes de compra" />
+                <Tab label="Facturación" />
                 <Tab label="Administrar clientes" />
                 
             </Tabs>
