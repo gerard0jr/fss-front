@@ -73,8 +73,8 @@ const Summary = ({leads, orders, bills, page, pageOrd, pageBill, rowsPerPage, ha
         <BillsTable 
             bills={bills}
             loading={loadingBills}
-            pageBill={pageBill}
-            rowsPerPageBill={rowsPerPageBill}
+            page={pageBill}
+            rowsPerPage={rowsPerPageBill}
             handleChangePage={handleChangePageBill}
             orderById={orderByIdBills}
             getBills={getBills}

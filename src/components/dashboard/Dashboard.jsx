@@ -147,6 +147,7 @@ export default class Dashboard extends Component {
 
                 getOrders={getOrders}
                 getBills={getBills}
+
             />
             <Employees 
                 sellers={sellers}

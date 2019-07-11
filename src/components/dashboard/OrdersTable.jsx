@@ -4,18 +4,28 @@ import { Table, TableBody, TableHead, TableCell, TableRow,
 import { updateOrder } from '../../services/orders'
 import './styles.css'
 import { FilterList } from '@material-ui/icons';
+import Snack from '../snackbar/Snack';
 require('moment/locale/es')
 
-const OrdersTable = ({orders, page, rowsPerPage, handleChangePage, loading, orderById, handleStatus, getOrders}) => {
+const OrdersTable = ({orders, page, rowsPerPage, handleChangePage, loading, orderById, getOrders}) => {
 
     const [ arrayFilter, setArrayFilter ] = useState('')
     let handleArrayFilter = e => setArrayFilter(e.target.value)
 
+    const [open, setOpen] = useState(false)
+    const [message, setMessage] = useState('Orden de compra actualizada')
+
     let handleOrder = order => e => {
         order[e.target.name] = e.target.value
         updateOrder(order, order._id)
-            .then(upOrder => this.setState({dialog: false, open: true, message:'Orden actualizada'}, getOrders))
-            .catch(err => console.log(err))
+            .then(upOrder => {
+                setOpen(true)
+                getOrders()
+            })
+            .catch(err => {
+                setMessage('Ocurrió un error al actualizar')
+                setOpen(true)
+            })
     }
     
   return (
@@ -94,7 +104,7 @@ const OrdersTable = ({orders, page, rowsPerPage, handleChangePage, loading, orde
         <TablePagination
           rowsPerPageOptions={[5]}
           component="Table"
-          count={orders ? orders.length : 0}
+          count={orders ? orders.filter(order => order.active).length : 0}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{
@@ -105,6 +115,7 @@ const OrdersTable = ({orders, page, rowsPerPage, handleChangePage, loading, orde
             }}
             onChangePage={handleChangePage}
             />
+        <Snack close={() => setOpen(false)} message={message} open={open}/>
     </div>
   )
 }

@@ -5,7 +5,7 @@ ReactChartkick.addAdapter(Chart)
 
 const PieChartOrders = ({generada, enviada, facturada}) => {
   return (
-    <PieChart data={{"Generada":generada, "Enviada":enviada, "Facturada":facturada}}/> 
+    <PieChart colors={['#f3f300', '#6E6EFF', '#00CC2C']} data={{"Generada":generada, "Enviada":enviada, "Facturada":facturada}}/> 
   )
 }
 

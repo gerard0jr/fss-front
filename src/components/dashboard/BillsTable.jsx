@@ -4,19 +4,30 @@ import { Table, TableBody, TableHead, TableCell, TableRow,
 import { updateBill } from '../../services/bills'
 import './styles.css'
 import { FilterList } from '@material-ui/icons';
+import Snack from '../snackbar/Snack';
 require('moment/locale/es')
 
-const BillsTable = ({bills, page, rowsPerPage, handleChangePage, loading, orderById, handleStatus, getBills}) => {
+const BillsTable = ({bills, page, rowsPerPage, handleChangePage, loading, orderById, getBills}) => {
 
     const [ arrayFilter, setArrayFilter ] = useState('')
     let handleArrayFilter = e => setArrayFilter(e.target.value)
-
+    
+    const [open, setOpen] = useState(false)
+    const [message, setMessage] = useState('Factura actualizada')
+    
     let handleBill = bill => e => {
         bill[e.target.name] = e.target.value
         updateBill(bill, bill._id)
-            .then(upBill => this.setState({dialog: false, open: true, message:'Factura actualizada'}, getBills))
-            .catch(err => console.log(err))
+            .then(upBill => {
+                setOpen(true)
+                getBills()
+            })
+            .catch(err => {
+                setMessage('Ocurrió un error al actualizar')
+                setOpen(true)
+            })
     }
+
     
   return (
     <div style={{marginTop: "1em"}}>
@@ -81,8 +92,8 @@ const BillsTable = ({bills, page, rowsPerPage, handleChangePage, loading, orderB
                             <MenuItem value={'Pagada'} >Pagada</MenuItem>
                         </TextField>
                     </TableCell>
-                </TableRow> : ''
-                );
+                </TableRow> : 
+                '');
             }) : <TableRow>
                     <TableCell style={{width:"200px", padding: "5px"}} component="th" scope="row">
                        {loading ? 'Cargando...' : 'No hay facturas'}
@@ -96,7 +107,7 @@ const BillsTable = ({bills, page, rowsPerPage, handleChangePage, loading, orderB
         <TablePagination
           rowsPerPageOptions={[5]}
           component="Table"
-          count={bills ? bills.length : 0}
+          count={bills ? bills.filter(bill => bill.active).length : 0}
           rowsPerPage={rowsPerPage}
           page={page}
           backIconButtonProps={{
@@ -107,6 +118,7 @@ const BillsTable = ({bills, page, rowsPerPage, handleChangePage, loading, orderB
             }}
             onChangePage={handleChangePage}
             />
+        <Snack close={() => setOpen(false)} message={message} open={open}/>
     </div>
   )
 }
