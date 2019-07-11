@@ -1,6 +1,6 @@
 import axios from 'axios'
-const url = 'http://localhost:3000/bills'
-// const url = 'https://crm-fss.herokuapp.com/bills'
+// const url = 'http://localhost:3000/bills'
+const url = 'https://crm-fss.herokuapp.com/bills'
 
 export const updateBill = (data, id) =>
     axios.post(`${url}/updateBill/${id}`, data)
